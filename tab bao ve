@@ -1,0 +1,41 @@
+def __bao_ve__():
+    x = 0
+    y = 15
+
+    line_creat = Canvas(tab_bao_ve, width=550, height=300)
+    line_creat.place(x = 0, y = 0)
+    line_creat.create_line(0, 50, 550, 50, fill="#476042")
+
+    Label(tab_bao_ve, text = "Công dụng: Phát hiện và đưa ra thông báo khi có click tặc\n=>Tối ưu hóa chi phí quảng cáo!").place(x = x + 60, y = y - 5)
+
+    def hello():
+       messagebox.showinfo("Hướng dẫn!", "✔️Với Phần mền Super Shopee!\n______________________________\nBạn có thể chống click tặc!\nChúng tôi sẽ theo dõi và thông báo cho bạn khi shopee của bạn bị click tặc. Đồng thời kèm theo lời khuyên bạn nên tắt quảng cáo khi nào hoặc bạn cần làm gì với từng loại click tặc riêng\n=> Qua đó bạn có thể tiết kiệm chi phí quảng cáo, hay nói cách khác là tối ưu hóa quảng cáo của bạn!\nChúng tôi sẽ thông báo qua phần mềm hoặc qua email (Nếu bạn đăng kí thông báo bằng email!")
+
+    Button(tab_bao_ve, text = "Hướng dẫn", command = hello).place(x = x + 440, y = y)
+
+    Label(tab_bao_ve, text = "Nhập link shop shopee cần bảo vệ (Không phải link bài viết):").place(x = x + 10, y = y + 40)
+    link_shopee = Entry(tab_bao_ve)
+    link_shopee.place(x = x + 14, y = y + 60, width = 500 , height = 22)
+
+    Label(tab_bao_ve, text = "Nhập email thông báo kèm lời khuyên khi có click tặc:").place(x = x + 10, y = y + 90)
+    link_shopee = Entry(tab_bao_ve)
+    link_shopee.place(x = x + 14, y = y + 110, width = 500 , height = 22)
+
+    def tab_3_start():
+        Label(tab_bao_ve, text = "Lưu ý: Không được thoát khi phần mềm đang chạy!").place(x =10, y =200)
+        pb = Progressbar(tab_bao_ve,orient = HORIZONTAL,length = 100,mode = 'determinate')
+        pb.place(x=14, y =160, width = 454 , height = 22)
+        txt = Label(tab_bao_ve,text = '0%',bg = '#345',fg = '#fff')
+        txt.place(x=468, y =160, width = 46)
+        for i in range(100):
+            tab_bao_ve.update_idletasks()
+            pb['value'] += 1
+            sleep(0.0002)
+            txt['text']= pb['value'] ,'%'
+        if __set_up__.code_key_login == True:
+            messagebox.askokcancel("Thông báo!", "Đã hoàn tất!")
+        else:
+            messagebox.askokcancel("Thông báo!", "Bạn đang sử dụng bản miễn phí!\n=> Khiên chỉ có tác dụng trong 15 phút\nVui lòng nâng cấp lên bản trả phí để khiên có thể bật vĩnh viễn")
+
+
+    Button(tab_bao_ve, text = "Run", bd = 3, command = tab_3_start).place(x = x + 420, y = y + 210, width = 80)
