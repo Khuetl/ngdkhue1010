@@ -48,16 +48,15 @@ def tab_1():
             except:
                 sleep(0.5)
         sleep(10)
-        class scroll():
-            for i in range(1000):
-                browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
-                sleep(0.0003)
-            for i in range(500):
-                browser_shopee.execute_script("window.scrollTo(0, window.scrollY - 1)")
-                sleep(0.0001)
-            for i in range(500):
-                browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
-                sleep(0.0001)
+        for i in range(1000):
+            browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
+            sleep(0.0003)
+        for i in range(500):
+            browser_shopee.execute_script("window.scrollTo(0, window.scrollY - 1)")
+            sleep(0.0001)
+        for i in range(500):
+            browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
+            sleep(0.0001)
         sleep(5)
         try:
             browser_shopee.quit()
@@ -98,16 +97,15 @@ def tab_2():
             browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div[2]/div[2]/div[' + str(abc) + ']').click()
         except:
             browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div/div[2]/div[' + str(abc) + ']').click()
-        class scroll():
-            for i in range(1000):
-                browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
-                sleep(0.0003)
-            for i in range(500):
-                browser.execute_script("window.scrollTo(0, window.scrollY - 1)")
-                sleep(0.0001)
-            for i in range(500):
-                browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
-                sleep(0.0001)
+        for i in range(1000):
+            browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
+            sleep(0.0003)
+        for i in range(500):
+            browser.execute_script("window.scrollTo(0, window.scrollY - 1)")
+            sleep(0.0001)
+        for i in range(500):
+            browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
+            sleep(0.0001)
         try:
             browser.quit()
         except:
@@ -137,8 +135,6 @@ def tab_4():
         text_1 = text_1 + i.text + "\n"
 
     messagebox.askokcancel("Hoàn Tất!", "Những từ khóa được tìm kiếm đang có xu hướng phát triển là:\n______________________________________________\n" + text_1)
-
-
 
 shopee = Tk()
 class __set_up__():
@@ -175,7 +171,6 @@ shopee_tab.add(tab_sub, text = "Sub & Tym")
 shopee_tab.add(tab_keyword, text = "Keyword SEO")
 shopee_tab.add(tab_setting, text = "Cài Đặt")
 shopee_tab.pack(expand = 1, fill ="both")
-
 
 class __tab_spam_view__():
     x = 0
@@ -454,8 +449,4 @@ class __setting__():
     Button(tab_setting, text = "Fanpage", bd = 3, command = open_facebook).place(x = x + 457, y = y + 232, width = 90)
     Button(tab_setting, text = "Mua key", bd = 3, command = open_keys).place(x = x + 367, y = y + 232, width = 90)
     
-
-
-
-
 shopee.mainloop()
