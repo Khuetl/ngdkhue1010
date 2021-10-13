@@ -1,9 +1,11 @@
 import subprocess
 from time import sleep
+import autoit
 
 device = "emulator-5554"
 
-subprocess.call("C:\LDPlayer\LDPlayer4.0\dnplayer.exe")
+autoit.run("C:\LDPlayer\LDPlayer4.0\dnplayer.exe")
+# subprocess.call("C:\LDPlayer\LDPlayer4.0\dnplayer.exe")
 
 def auto_click(x, y):
     subprocess.call(f"adb -s {device} shell input tap {x} {y}")
