@@ -7,6 +7,11 @@ device = "emulator-5554"
 autoit.run("C:\LDPlayer\LDPlayer4.0\dnplayer.exe")
 # subprocess.call("C:\LDPlayer\LDPlayer4.0\dnplayer.exe")
 
+# scroll up
+adb -s {device} shell input swipe 250 800 250 400 300
+# scroll down
+adb -s {device} shell input swipe 250 400 250 800 300
+
 def auto_click(x, y):
     subprocess.call(f"adb -s {device} shell input tap {x} {y}")
 
