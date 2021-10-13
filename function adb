@@ -1,0 +1,13 @@
+import subprocess
+from time import sleep
+
+device = "emulator-5554"
+
+def auto_click(x, y):
+    subprocess.call(f"adb -s {device} shell input tap {x} {y}")
+
+def send_text(text):
+    subprocess.call(f"adb -s {device} shell input text {text}")
+
+def key_event(key):
+    subprocess.call(f"adb -s {device} shell input keyevent {key}")
