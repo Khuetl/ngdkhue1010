@@ -1,3 +1,15 @@
+== Adb Server
+adb kill-server
+adb start-server 
+
+== Adb Reboot
+adb reboot
+adb reboot recovery 
+adb reboot-bootloader
+
+# click vào vị trí trên giả lập
 adb -s (device) shell input tap x y
 eg: adb -s emulator-5554 shell input tap 596 111
 
+# điền nội dung vào giả lập
+adb -s (device) shell input text "ví dụ"
