@@ -30,6 +30,9 @@ adb -s (device) shell wm density reset
 adb -s (device) shell input tap x y
 eg: adb -s emulator-5554 shell input tap 596 111
 
+# scroll trên giả lập
+adb -s (device) shell input swipe <start_x> <start_y> <end_x> <end_y> <duration_ms>
+
 # điền nội dung vào giả lập
 adb -s (device) shell input text "ví dụ"
 
