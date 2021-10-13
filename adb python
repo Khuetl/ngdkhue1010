@@ -1,3 +1,8 @@
+== Devices
+adb usb
+adb devices
+adb connect ip_address_of_device
+
 == restar
 netstat -ano | findstr 5037
 findstr (9200)
@@ -11,8 +16,15 @@ adb start-server
 
 == Adb Reboot
 adb reboot
-adb reboot recovery 
+adb reboot recovery
 adb reboot-bootloader
+
+# Emulate device
+adb -s (device) shell wm size 380x660
+adb -s (device) shell wm density 120
+# And reset to default
+adb -s (device) shell wm size reset
+adb -s (device) shell wm density reset
 
 # click vào vị trí trên giả lập
 adb -s (device) shell input tap x y
@@ -20,5 +32,25 @@ eg: adb -s emulator-5554 shell input tap 596 111
 
 # điền nội dung vào giả lập
 adb -s (device) shell input text "ví dụ"
+
+# install app
+adb -s (device) install -r yourApp.apk
+
+# key_event
+adb -s (device) shell input keyevent 3 // Home btn
+adb -s (device) shell input keyevent 4 // Back btn
+adb -s (device) shell input keyevent 5 // Call
+adb -s (device) shell input keyevent 6 // End call
+adb -s (device) shell input keyevent 26  // Turn Android device ON and OFF. It will toggle device to on/off status.
+adb -s (device) shell input keyevent 27 // Camera
+adb -s (device) shell input keyevent 64 // Open browser
+adb -s (device) shell input keyevent 66 // Enter
+adb -s (device) shell input keyevent 67 // Delete (backspace)
+adb -s (device) shell input keyevent 207 // Contacts
+adb -s (device) shell input keyevent 220 / 221 // Brightness down/up
+adb -s (device) shell input keyevent 277 / 278 /279 // Cut/Copy/Paste
+
+# Screenshot
+adb -s (device) shell screencap -p /sdcard/screenshot.png
 
 
