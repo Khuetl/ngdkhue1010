@@ -1,0 +1,22 @@
+import subprocess
+import os
+
+abc2 = "supershopee"
+
+cmd_current = os.getcwd()
+abc1 = "pyinstaller --noconsole --onefile --icon=icon1.ico --exclude-module _bootlocale "
+abc = abc1 + abc2 + ".py"
+
+print(cmd_current + "\\" + abc)
+print("\n")
+
+try:
+    subprocess.call(abc)
+except Exception as loi:
+    print("\n")
+    print(loi)
+
+print("\n")
+os.system('pause')
+
+os.remove(abc2 + ".spec")
