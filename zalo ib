@@ -1,0 +1,115 @@
+from time import sleep
+from io import BytesIO
+import win32clipboard
+from PIL import Image
+from random import randint
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+
+time_sleep = 3
+content = "Bạn có bán hàng trên shopee phải không ạ!"
+path_image = "qcao.png"
+len_profile = 4
+
+class clear_data():
+    path_file = "sodienthoaishopee.txt"
+    with open(path_file, mode= "r") as txt:
+        txt_read = txt.read()
+        while True:
+            txt_write = txt_read.replace("\n\n", "\n").replace(" ", "")
+            if txt_write.find("\n\n") < 1:
+                break
+            txt_read = txt_write
+    with open(path_file, mode= "w") as txt1:
+        txt1.write(txt_write)
+
+for i in range(100):
+    profile = (i % len_profile) + 1
+    # Creat profile zalo
+    profile = 3
+
+    chromeoptions = webdriver.ChromeOptions()
+    userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile Zalo " + str(profile)
+    chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
+    browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
+    for try_uid in range(20):
+        browser.get("https://chat.zalo.me/")
+        sleep(time_sleep + 2)
+        print("Mở Zalo Thành Công.")
+
+        # find uid by sdt
+        with open(r"sodienthoaishopee.txt", "r") as multi_sdt:
+            sdt = multi_sdt.read()
+            list_sdt = sdt.split("\n")
+            uid = list_sdt.pop(0)
+        with open(r"sodienthoaishopee.txt", "w") as multi_sdt:
+            for a in list_sdt:
+                multi_sdt.write(a)
+                multi_sdt.write("\n")
+        contact_search_input = browser.find_element_by_id("contact-search-input")
+        contact_search_input.send_keys(uid)
+        print("Điền Số Điện Thoại Thành Công.")
+
+        # click uid
+        sleep(time_sleep)
+        find_sdt = browser.find_element_by_xpath("/html/body/div/div/div[2]/nav/div[2]/div[3]/div/div[2]/div/div/div/div[1]/div/div[1]/div/div[2]/div")
+        find_sdt.click()
+        try:
+            browser.find_element_by_id("input_line_0")
+            print("Trạng Thái Zalo: Tìm thấy thành công Zalo- ", uid)
+            break
+        except:
+            print("Trạng Thái Zalo: Không tồn tại Zalo- ", uid)
+            continue
+        
+        
+        # Điều kiện thoát
+        if try_uid == 20:
+            print("---------ERROR----------")
+            sleep(99999999999)
+
+    # send content
+    sleep(time_sleep)
+    send_content_inbox = browser.find_element_by_id("input_line_0")
+    if len(path_image) > 0:
+        class image_to_clipbroad():
+            def send_to_clipboard(clip_type, data):
+                win32clipboard.OpenClipboard()
+                win32clipboard.EmptyClipboard()
+                win32clipboard.SetClipboardData(clip_type, data)
+                win32clipboard.CloseClipboard()
+
+            image = Image.open(path_image)
+            output = BytesIO()
+            image.convert("RGB").save(output, "BMP")
+            data = output.getvalue()[14:]
+            output.close()
+
+            send_to_clipboard(win32clipboard.CF_DIB, data)
+        send_content_inbox.send_keys(Keys.CONTROL, 'v')
+        sleep(3)
+        try:
+            send_content_inbox.send_keys(Keys.ENTER)
+        except:
+            browser.find_element_by_xpath("/html/body/div/div/div[2]/main/div/article/div[4]/div[3]/div/div/div/div/div[2]/div[5]").click()
+        print("Đã gửi Image.")
+        sleep(time_sleep)
+    if len(content) > 0:
+        send_content_inbox = browser.find_element_by_id("input_line_0")
+        send_content_inbox.send_keys(content)
+        sleep(3)
+        try:
+            send_content_inbox.send_keys(Keys.ENTER)
+        except:
+            browser.find_element_by_xpath("/html/body/div/div/div[2]/main/div/article/div[4]/div[3]/div/div/div/div/div[2]/div[5]").click()
+        print("Đã gửi Text.")
+        sleep(time_sleep)
+
+    sleep(5)
+    browser.quit()
+    print("\n")
+    try:
+        sleep(randint(20, 30))
+    except:
+        sleep(25)
