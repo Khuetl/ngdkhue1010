@@ -1,3 +1,10 @@
+== restar
+netstat -ano | findstr 5037
+findstr (9200)
+taskkill /f /t /im (adb.exe)
+adb kill-server
+adb start-server
+
 == Adb Server
 adb kill-server
 adb start-server 
@@ -13,3 +20,5 @@ eg: adb -s emulator-5554 shell input tap 596 111
 
 # điền nội dung vào giả lập
 adb -s (device) shell input text "ví dụ"
+
+
