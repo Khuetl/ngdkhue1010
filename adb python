@@ -1,0 +1,3 @@
+adb -s (device) shell input tap x y
+eg: adb -s emulator-5554 shell input tap 596 111
+
