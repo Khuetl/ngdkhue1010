@@ -1,0 +1,155 @@
+import re
+from time import sleep
+from random import randint
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+
+
+keyword = "quần ống rộng"
+stt = 1
+ketqua = {"key1":0,"key2":0,"key3":0}
+
+print("Từ khóa: ", keyword)
+print("\n")
+while True:
+    class data_0():
+        print("- Vòng lặp thứ: ", str(stt)) 
+        time_sleep = 3
+        chromeoptions = webdriver.ChromeOptions()
+        # chromeoptions.add_argument("--headless")
+        chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        chromeoptions.add_experimental_option("prefs", prefs)
+        chromeoptions.add_argument("--start-maximized")
+        chromeoptions.add_argument("--window-position=-999,-999")
+        browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
+        keyword.replace(" ", "%20")
+        number_page = str(randint(0, 9))
+        if number_page != "0":
+            browser.get("https://shopee.vn/search?keyword=" + keyword + "&page=" + number_page )
+        else:
+            browser.get("https://shopee.vn/search?keyword=" + keyword)
+        sleep(time_sleep)
+        print("Bước 1: done!- page number:", number_page)
+
+        # Chọn bài đăng
+        list_class_name_san_pham = ('/html/body/div[1]/div/div[3]/div/div[2]/div[3]/div[2]/div[' ,
+                                    '/html/body/div[1]/div/div[3]/div/div[2]/div[2]/div[2]/div[' ,
+                                    '/html/body/div[1]/div/div[3]/div/div[2]/div/div[2]/div[')
+        for i_1 in range(10):
+            try:
+                number = str(randint(1, 60))
+            except:
+                number = "1"
+            for i_1_1 in list_class_name_san_pham:
+                try:
+                    browser.find_element_by_xpath(i_1_1 + number + "]").click()
+                    break_i_1 = True
+                    sleep(time_sleep)
+                    break
+                except:
+                    sleep(2)
+            try:
+                if break_i_1 == True:
+                    break
+            except:
+                browser.quit()
+                print("Thất bại! Khởi tạo lại!")
+                continue
+        sleep(1)
+        for i_1_1 in list_class_name_san_pham:
+            try:
+                browser.find_element_by_xpath(i_1_1 + number + "]").click()
+                break_i_1 = True
+                sleep(time_sleep)
+                break
+            except:
+                sleep(1)
+        sleep(time_sleep + 2)
+        print("Bước 2: done!- STT bài đăng:", number)
+
+        # Find content
+        content_txt = ""
+        list_xpath_content = ("/html/body/div[1]/div/div[2]/div[2]/div[2]/div[3]/div[3]/div[1]/div[1]/div[2]" , 
+                              "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/div[2]")
+        for i_content in list_xpath_content:
+            try:
+                content = browser.find_element_by_xpath(i_content)
+                content_txt += content.text
+            except:
+                pass
+        browser.quit()
+
+    txt = data_0.content_txt
+    print("Hoàn thành lấy content!")
+
+    class data_1():
+        # form_sdt = ("086" , "096" , "097" , "098" , "032" , "033" , "034" , "035" , "036" , "037" , "038" , "039" , "070" , "076" , "077" , "078" , "079" , "081" , "082" , "083" , "084" , "085" , "055" , "058" , "059")
+        form_sdt = ("03" , "05" , "07" , "08" , "09")
+        vitri_sdt = []
+        for a in form_sdt:
+            find_sdt = [m.start() for m in re.finditer(a, txt)]
+            if len(find_sdt) > 0:
+                for b in find_sdt:
+                    vitri_sdt.append(b)
+
+    class data_2():
+        data_sdt = []
+        for a in data_1.vitri_sdt:
+            sdt = txt[a:a+10]
+            try:
+                int(sdt)
+            except:
+                sdt_1 = txt[a:a+12]
+                sdt = sdt_1.replace(".", "")
+                sdt.replace(" ", "")
+            try:
+                if int(sdt) >  10**8:
+                    try:
+                        with open(r"sodienthoai.txt", mode= "r") as docx_text_sdt:
+                            sdt_history = docx_text_sdt.read().split("\n")
+                    except:
+                        sdt_history = [""]
+                    if sdt in sdt_history:
+                        ketqua["key3"] = ketqua["key3"] + 1
+                        print("Số đã tồn tại! -", str(sdt))
+                    else:
+                        if sdt in data_sdt:
+                            pass
+                        else:
+                            ketqua["key2"] = ketqua["key2"] + 1
+                            try:
+                                with open(r"sodienthoaishopee.txt", mode= "a") as text_sdt:
+                                    text_sdt.write(sdt + "\n")
+                            except:
+                                try:
+                                    with open(r"sodienthoaishopee.txt", mode= "w") as text_sdt:
+                                        text_sdt.write(sdt + "\n")
+                                except:
+                                    print("No file creat!")
+                            try:
+                                with open(r"sodienthoai.txt", mode= "a") as text_sdt:
+                                    text_sdt.write(sdt + "\n")
+                            except:
+                                try:
+                                    with open(r"sodienthoai.txt", mode= "w") as text_sdt:
+                                        text_sdt.write(sdt + "\n")
+                                except:
+                                    print("No file creat!")
+                            print("Đã lưu số điện thoại: ", end= "")
+                            print(sdt)
+                    data_sdt.append(sdt)
+            except:
+                pass
+        if len(data_sdt) == 0:
+            ketqua["key1"] = ketqua["key1"] + 1
+            print("Kết quả tìm kiếm: ", end= "")
+            print("Lỗi!")
+        print("- Lỗi:", ketqua["key1"], "- Lưu:" , ketqua["key2"], "- Không Lưu:" , ketqua["key3"])
+    stt += 1
+    print("\n")
+
+
+
+
