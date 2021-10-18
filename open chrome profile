@@ -1,0 +1,14 @@
+from selenium import webdriver
+
+number = str(input("Nhập số thứ tự: "))
+userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile Shopee " + number
+
+chromeoptions = webdriver.ChromeOptions()
+chromeoptions.add_argument("--start-maximized")
+chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
+chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
+prefs = {"profile.managed_default_content_settings.images": 1}
+chromeoptions.add_experimental_option("prefs", prefs)
+browser_shopee = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
+
+browser_shopee.get("https://shopee.vn/buyer/login")
