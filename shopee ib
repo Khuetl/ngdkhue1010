@@ -2,83 +2,131 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from time import sleep
+import autoit
+from win32gui import *
 from random import randint
 
-userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile Shopee " + "1"
-chromeoptions = webdriver.ChromeOptions()
-chromeoptions.add_argument("--start-maximized")
-chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
-prefs = {"profile.managed_default_content_settings.images": 2}
-chromeoptions.add_experimental_option("prefs", prefs)
-browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options= chromeoptions)
+key_word = "tai nghe"
+len_profile = 4
+txt = ""
+image = r"C:\Users\Nguyen Dinh Khue\Pictures\Screenshots\1 (2).png"
 
-# browser.get("https://shopee.vn/buyer/login")
+def click_send_autoit():
+    sleep(15)
+    titles = set()
+    def foo(hwnd,nouse):
+        if IsWindow(hwnd) and IsWindowEnabled(hwnd) and IsWindowVisible(hwnd):
+            titles.add(GetWindowText(hwnd))
+    EnumWindows(foo, 0)
+    for send_close in titles:
+        if "Shopee Việt Nam" in send_close:
+            autoit.control_click(send_close,"", button = "left",x= 1097,y= 714)
 
-def login():
-    browser.get("https://shopee.vn/buyer/login")
-    sleep(5)
+for i in range(1):
+    # zalo profile
+    profile = (i % len_profile) + 1
+    profile = 1
+    userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile Shopee " + str(profile)
+    chromeoptions = webdriver.ChromeOptions()
+    chromeoptions.add_argument("--start-maximized")
+    chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
+    prefs = {"profile.managed_default_content_settings.images": 1}
+    chromeoptions.add_experimental_option("prefs", prefs)
+    browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options= chromeoptions)
 
-    name_login = browser.find_element_by_name("loginKey")
-    name_login.send_keys("khuetl")
+    class inbox_keyword():
+        browser.get("https://shopee.vn")
+        print(f"- Khởi tạo thành công chrome {i}!")
+        sleep(10)
 
-    pass_login = browser.find_element_by_name("password")
-    pass_login.send_keys("123456")
-    pass_login.send_keys(Keys.ENTER)
-
-class inbox_keyword():
-    browser.get("https://shopee.vn")
-    sleep(10)
-
-    for i in range(2):
-        try:
-            keyword = browser.find_element_by_class_name("shopee-searchbar-input__input")
-            keyword.send_keys("Bàn học")
-            keyword.send_keys(Keys.ENTER)
-            break
-        except:
-            print("1")
-            sleep(1)
-    sleep(5)
-
-    # Chọn số trang
-    try:
-        number = str(randint(1, 10))
-    except:
-        number = "1"
-    browser.get(browser.current_url + "&page=" + number)
-    sleep(5)
-
-    # Chọn sản phẩm
-    list_class_name_san_pham = ('//*[@id="main"]/div/div[3]/div/div[2]/div[3]/div[2]/div[' ,
-                                '//*[@id="main"]/div/div[3]/div/div[2]/div[2]/div[2]/div[' ,
-                                '//*[@id="main"]/div/div[3]/div/div[2]/div/div[2]/div[' )
-
-    for i in range(2):
-        try:
-            number = str(randint(1, 60))
-        except:
-            number = "1"
-        for i in list_class_name_san_pham:
+        for i1 in range(5):
             try:
-                san_pham = browser.find_element_by_xpath(i + number + "]")
-                san_pham.click()
+                keyword = browser.find_element_by_class_name("shopee-searchbar-input__input")
+                keyword.send_keys(key_word)
+                keyword.send_keys(Keys.ENTER)
+                print("Thành công: điền keyword!")
                 break
             except:
-                sleep(1)
-    sleep(10)
+                print("Thất bại: điền keyword!")
+                sleep(3)
+        sleep(5)
 
-    for i in range(2):
+        # Chọn số trang
         try:
-            id_chat = browser.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[3]/button')
-            id_chat.click()
-            break
+            number = str(randint(1, 10))
         except:
-            print("3")
-            sleep(1)
-    sleep(5)
-    try:
-        text = browser.find_element_by_xpath('//*[@id="shopee-mini-chat-embedded"]/div[1]/div[2]/div[1]/div[2]/div[2]/div/div/div[1]/div/textarea')
-        text.send_keys("abc")
-        text.send_keys(Keys.ENTER)
-    except:
-        print("4")
+            number = "1"
+        browser.get(browser.current_url + "&page=" + number)
+        sleep(10)
+
+        # Chọn sản phẩm
+        list_class_name_san_pham = ('//*[@id="main"]/div/div[3]/div/div[2]/div[3]/div[2]/div[' ,
+                                    '//*[@id="main"]/div/div[3]/div/div[2]/div[2]/div[2]/div[' ,
+                                    '//*[@id="main"]/div/div[3]/div/div[2]/div/div[2]/div[' )
+
+        for i2 in range(5):
+            try:
+                number = str(randint(1, 60))
+            except:
+                number = "1"
+            for i21 in list_class_name_san_pham:
+                try:
+                    san_pham = browser.find_element_by_xpath(i21 + number + "]")
+                    san_pham.click()
+                    print("Thành công: chọn sản phẩm!")
+                    break_i2 = True
+                    break
+                except:
+                    print("Thất bại: chọn sản phẩm!")
+                    sleep(2)
+            if break_i2 == True:
+                break
+        try:
+            san_pham = browser.find_element_by_xpath(i21 + number + "]")
+            san_pham.click()
+            print("Thành công: chọn sản phẩm!")
+        except:
+            sleep(2)
+        sleep(10)
+
+        # gửi nội dung spam
+        # list_class_button_chat_ngay = ("#main > div > div._193wCc > div.page-product > div.container > div._2G_fvP > div._34c6X6.page-product__shop > div._3-NiSV > div > div._3efaer > button"
+        #                                "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[3]/button"
+        #                                "/html/body/div[1]/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[1]/div/div[3]/button")
+        for i3 in range(5):
+            # for i31 in list_class_button_chat_ngay:
+            try:
+                id_chat = browser.find_element_by_css_selector("#main > div > div._193wCc > div.page-product > div.container > div._2G_fvP > div._34c6X6.page-product__shop > div._3-NiSV > div > div._3efaer > button")
+                id_chat.click()
+                print("Thành công: ấn vào nút -Chat Ngay-")
+                break
+            except:
+                print("Thất bại: ấn vào nút -Chat Ngay-")
+                sleep(3)
+        sleep(5)
+
+        # nội dung dạng hình ảnh
+        if len(image) > 0:
+            def image_autoit():
+                click_image = browser.find_element_by_xpath("/html/body/div[5]/div[1]/div[2]/div[1]/div[2]/div[2]/div/div/div[2]/div/div/div[2]/div/div/i")
+                click_image.click()
+                sleep(3)
+                autoit.control_send("Open", "Edit1", image)
+                autoit.control_click("Open", "Button1")
+            def image_selenium():
+                send_image = browser.find_element_by_xpath("/html/body/div[5]/div[1]/div[2]/div[1]/div[2]/div[2]/div/div/div[2]/div/div/div[2]/div/input")
+                send_image.send_keys(image)
+            image_selenium()
+            click_send_autoit()
+            print("Thành công: gửi hình ảnh!")
+
+        # nội dung dạng văn bản
+        if len(txt) > 0:
+            try:
+                text = browser.find_element_by_xpath('//*[@id="shopee-mini-chat-embedded"]/div[1]/div[2]/div[1]/div[2]/div[2]/div/div/div[1]/div/textarea')
+                text.send_keys(txt)
+                text.send_keys(Keys.ENTER)
+                print("Thành công: gửi văn bản!")
+            except:
+                print("Thất bại: điền nội dung txt")
+    print("\n")
