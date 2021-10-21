@@ -1,0 +1,57 @@
+from PIL import Image, ImageDraw, ImageFont
+import os
+
+path_folder = r"C:\Users\Nguyen Dinh Khue\Documents\Choang_pts\pts"
+os.chdir(path_folder)
+objects = os.listdir(path_folder)
+files_file = [f for f in objects if os.path.isfile(os.path.join(path_folder, f))]
+
+for name_img in files_file:
+    # mở file hình ảnh
+    image_file = Image.open(name_img)
+    size_file = image_file.size
+    x_size = 1200
+
+    # Thay đổi kích thước hình ảnh
+    y_size = round(x_size*size_file[1]/size_file[0])
+    image_resize = image_file.resize((x_size, y_size))
+    image_resize.save(name_img + ".png")
+
+    # setup
+    image = Image.open(name_img + ".png").convert("RGBA")
+    txt = Image.new('RGBA', image.size, (255,255,255,0))
+    font = ImageFont.truetype(r"‪C:\Windows\Fonts\ARLRDBD.TTF", 35)
+    d = ImageDraw.Draw(txt)
+    d.text((0, 0), "Cheng accessories", fill=(0, 0, 0, 30), font=font)
+    combined = Image.alpha_composite(image, txt)  
+
+    # Chèn text
+    y = 0
+    for yi in range(10):
+        x = 0
+        for xi in range(5):
+            image = Image.open(name_img + ".png").convert("RGBA")
+            txt = Image.new('RGBA', image.size, (255,255,255,0))
+            font = ImageFont.truetype(r"‪C:\Windows\Fonts\ARLRDBD.TTF", 35)
+            d = ImageDraw.Draw(txt)
+            d.text((x, y), "Cheng accessories", fill=(0, 0, 0, 30), font=font)
+            combined = Image.alpha_composite(combined, txt)
+            x = x + 700
+        y = y + 250
+    y = 125
+    for yi in range(10):
+        x = 350
+        for xi in range(5):
+            image = Image.open(name_img + ".png").convert("RGBA")
+            txt = Image.new('RGBA', image.size, (255,255,255,0))
+            font = ImageFont.truetype(r"‪C:\Windows\Fonts\ARLRDBD.TTF", 35)
+            d = ImageDraw.Draw(txt)
+            d.text((x, y), "Cheng accessories", fill=(0, 0, 0, 30), font=font)
+            combined = Image.alpha_composite(combined, txt)
+            x = x + 700
+        y = y + 250
+    os.remove(name_img)
+    os.remove(name_img+ ".png")
+    save_name = name_img.split(".")
+    combined.save(save_name[0] + ".png")
+    print(name_img + "  Done! ")
