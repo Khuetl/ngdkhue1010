@@ -1,0 +1,274 @@
+from tkinter import *
+from tkinter import ttk, messagebox, Canvas, Frame, BOTH
+import tkinter
+from selenium import webdriver
+import getpass, random, requests, webbrowser, os, pyperclip
+from threading import *
+
+Setting = {"Key": False,"fakeip":False, "tinsoft":"", "window_size":"","namechrome":"", "name_del":"","name_creat":""}
+driver = os.getcwd() + "\chromedriver.exe"
+
+class function():
+    def open_chrome():
+        userdatadir = "C:\\Users\\"+ getpass.getuser() + "\\AppData\\Local\\Google\\Chrome\\User Data\\Profile " + Setting["namechrome"]
+        print(userdatadir)
+        chromeoptions = webdriver.ChromeOptions()
+        chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
+        if Setting["fakeip"] ==  True and len(Setting["tinsoft"]) > 0:
+            get_tinsoft = requests.get("https://proxy.tinsoftsv.com/api/getProxy.php?key=" + Setting["tinsoft"])
+            proxy_drive = get_tinsoft.json()
+            if proxy_drive.get("success") != True or proxy_drive.get("timeout") <=0:
+                get_tinsoft = requests.get("http://proxy.tinsoftsv.com/api/changeProxy.php?key=" + Setting["tinsoft"] + "&location=0")
+                proxy_drive = get_tinsoft.json()
+            PROXY = proxy_drive.get("proxy")
+            chromeoptions.add_argument('--proxy-server=%s' % PROXY)
+        chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
+        if Tab_function_class.size_variable.get() == "Maximum":
+            chromeoptions.add_argument("--start-maximized")
+        else:
+            size = Tab_function_class.size_variable.get().split("x")
+            chromeoptions.add_argument(f"--window-size={size[0]},{size[1]}")
+        chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chromeoptions.add_experimental_option('useAutomationExtension', False)
+        browser = webdriver.Chrome(executable_path=driver, options = chromeoptions)
+        browser.get("https://www.facebook.com")
+
+    def creat_chrome():
+        if len(Setting["name_creat"]) > 0:
+            try:
+                # Mở list danh sách chrome hiện có
+                with open("list_chrome.env", mode="r") as list_chrome:
+                    name_profile_choose = list_chrome.read().split("\n")
+                # Kiểm tra điều kiện đã tồn tại
+                if Tab_function_class.name_profile.get() in name_profile_choose:
+                    Label(set_up.tab_function, text="Thất bại: Tên Chrome đã tồn tại!                        ").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
+                else:
+                    # Ghi lại tên mới và cập nhật list
+                    with open("list_chrome.env", mode="a") as list_chrome:
+                        list_chrome.write("\n")
+                        list_chrome.write(Tab_function_class.name_profile.get())
+                    with open("list_chrome.env", mode="r") as list_chrome:
+                        name_profile_choose = list_chrome.read().split("\n")
+                    Tab_function_class.open_delete['values'] = name_profile_choose
+                    try:
+                        Tab_function_class.open_delete.current(len(name_profile_choose)-1)
+                    except:
+                        Tab_function_class.open_delete.current(0)
+                    Tab_function_class.name_profile.delete(0, END)
+                    Label(set_up.tab_function, text="Khởi tạo Chrome Clone Thành Công!            ").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
+            except:
+                Label(set_up.tab_function, text="Lưu ý: Tên chrome không được có dấu, ê, ô,...").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
+        else:
+            Label(set_up.tab_function, text="Lưu ý: Chưa nhập tên chrome (Tạo Chrome)   ").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
+
+    def delete_chrome():
+        with open("list_chrome.env", mode="r") as list_chrome:
+            name_profile_choose = list_chrome.read().split("\n")
+        name_profile_choose.remove(Setting["name_del"])
+        space = 0
+        with open("list_chrome.env", mode="w") as list_chrome:
+            for w in name_profile_choose:
+                if space != 0:
+                    list_chrome.write("\n")
+                list_chrome.write(w)
+                space += 1
+        Tab_function_class.open_delete['values'] = name_profile_choose
+        try:
+            Tab_function_class.open_delete.current(len(name_profile_choose)-1)
+        except:
+            Tab_function_class.open_delete.current(0)
+        Label(set_up.tab_function, text="Xóa Chrome Clone Thành Công!                ").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
+
+main = Tk()
+class set_up():
+    main.geometry("250x250+550+140")
+    main.title("Chrome Clone")
+    main.resizable(0, 0)
+    try:
+        main.iconbitmap(r"icon.ico")
+    except:
+        pass
+    try:
+        os.chdir("C:\\Users\\" + getpass.getuser() + "\\Documents")
+        os.mkdir("Replication")
+        os.chdir("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication")
+    except:
+        os.chdir("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication")
+    try:
+        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\tinsoft.env", mode= "r") as doc_tinsoft:
+            Setting["tinsoft"] = doc_tinsoft.read()
+            Setting["fakeip"] = True
+            ip = 0
+    except:
+        Setting["tinsoft"] = ""
+    try:
+        with open("license.env", mode= "r") as doc_license:
+            license = doc_license.read()
+        try:
+            link_key = requests.get("https://driverweb2020.blogspot.com/2021/10/ban-quyen-chrome-clone.html")
+            requests_key = link_key.text
+            if license in requests_key:
+                Setting["Key"] = True
+                ip = 1
+            else:
+                Setting["Key"] = False
+        except:
+            Setting["Key"] = False
+    except:
+        with open("license.env", mode= "w") as doc_license:
+            number = '0123456789'
+            alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            license = ''
+            for i in range(0,20,2):
+                license += random.choice(number)
+                license += random.choice(alpha)
+            doc_license.write(license)
+            Setting["Key"] = False
+    main_tab = ttk.Notebook(main)
+    tab_function = Frame(main_tab)
+    tab_setting = Frame(main_tab)
+    main_tab.add(tab_function, text = "Clone chrome")
+    main_tab.add(tab_setting, text = "Cài Đặt")
+    main_tab.pack(expand = 1, fill = "both")
+
+class Tab_function_class():
+    x = 0
+    y = 5
+
+    Label(set_up.tab_function, text = "Tạo chrome:").place(x= x,y= y)
+    name_profile = Entry(set_up.tab_function)
+    name_profile.place(x= x+ 80, y= y, width= 170 )
+
+    # List Chrome profile
+    Label(set_up.tab_function, text = "Mở/ Xóa:").place(x= x,y= y +33)
+    open_delete = ttk.Combobox(set_up.tab_function, width = 27, textvariable = tkinter.StringVar())
+    if Setting["Key"] == True:
+        try:
+            with open("list_chrome.env", mode="r") as list_chrome:
+                open_delete['values'] = list_chrome.read().split("\n")
+            open_delete.current(0)
+        except:
+            open_delete.current(0)
+    else:
+        open_delete['values'] = ("Profile 1", "Profile 2", "Profile 3")
+        open_delete.current(0)
+    open_delete.place(x= x+ 80, y= y + 32, width= 166 )
+
+    # List size chrome
+    Label(set_up.tab_function, text = "Kích thước:").place(x= x,y= y +66)
+    size_variable = ttk.Combobox(set_up.tab_function, width = 27, textvariable = tkinter.StringVar())
+    size_variable['values'] = ["Maximum","1300x750","600x900","400x650"]
+    size_variable.current(0)
+    size_variable.place(x= x+ 80, y= y + 65, width= 166 )
+
+    list_fakeip = ["Fake ip", "Không"]
+    fakeip = StringVar(set_up.tab_function)
+    try:
+        fakeip.set(list_fakeip[set_up.ip])
+    except:
+        fakeip.set(list_fakeip[0])
+    w4 = OptionMenu(set_up.tab_function, fakeip, *list_fakeip)
+    w4.place(x= x, y= y + 120, width= 125 )
+
+    list_change_info = ["Đổi thông tin", "Không"]
+    change_info = StringVar(set_up.tab_function)
+    change_info.set(list_change_info[0])
+    w5 = OptionMenu(set_up.tab_function, change_info, *list_change_info)
+    w5.place(x= x + 122, y= y + 120, width= 126 )
+
+    def tab_1():
+        if Setting["Key"] == True:
+            pass
+        else:
+            messagebox.showinfo("Thông báo!" , "Chức năng Fake IP, Đổi thông tin không được hỗ trợ ở bản miễn phí!\nSố lượng Chrome Clone tối đa là 3")
+        Setting["namechrome"] = Tab_function_class.open_delete.get()
+        Thread(target= function.open_chrome).start()
+
+    def tab_2():
+        if Setting["Key"] == True:
+            Setting["name_creat"] = Tab_function_class.name_profile.get()
+            Thread(target= function.creat_chrome).start()
+        else:
+            messagebox.showinfo("Thông báo!" , "Vui lòng kích hoạt để sử dụng chức năng này!")
+
+    def tab_3():
+        if Setting["Key"] == True:
+            Setting["name_del"] = Tab_function_class.open_delete.get()
+            print(Setting["name_del"])
+            print(Tab_function_class.open_delete.get())
+            function.delete_chrome()
+        else:
+            messagebox.showinfo("Thông báo!" , "Vui lòng kích hoạt để sử dụng chức năng này!")
+
+    Button(set_up.tab_function, text="Mở", command= tab_1).place(x= x + 2, y= y + 155, width= 80 )
+    Button(set_up.tab_function, text="Tạo", command= tab_2).place(x= x +83, y= y + 155, width= 80 )
+    Button(set_up.tab_function, text="Xóa", command= tab_3).place(x= x +164, y= y + 155, width= 82 )
+
+    if Setting["Key"] == True:
+        Label(set_up.tab_function, text="Bản Quyền Đã Kích Hoạt Thành Công!").place(x= x, y= y + 200)
+    else:
+        Label(set_up.tab_function, text="Bản Quyền Chưa Được Kích Hoạt!").place(x= x, y= y + 200)
+
+class Tab_Setting():
+    x = 0
+    y = 5
+
+    Label(set_up.tab_setting, text = "Tinsoft API").place(x= x,y= y)
+    Tinsoft_api = Entry(set_up.tab_setting)
+    try:
+        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\tinsoft.env", mode= "r") as doc_tinsoft:
+            Tinsoft_api.insert(0, doc_tinsoft.read())
+    except:
+        pass
+    Tinsoft_api.place(x= x+ 79, y= y, width= 169 )
+    
+    Label(set_up.tab_setting, text = "Khởi Động").place(x= x,y= y +31)
+    Open_web = Entry(set_up.tab_setting)
+    try:
+        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\start web.env", mode= "r") as doc_start:
+            Open_web.insert(0, doc_start.read())
+    except:
+        Open_web.insert(0, "https://www.facebook.com")
+    Open_web.place(x= x+ 78, y= y + 31, width= 170 )
+
+    Label(set_up.tab_setting, text = "Bản Quyền").place(x= x,y= y +97)
+    Button(set_up.tab_setting, text= "Click Copy Key Bản Quyền", command= pyperclip.copy(set_up.license)).place(x= x+ 78, y= y + 93, width= 168 )
+
+    def open_fb():
+        webbrowser.open("https://www.facebook.com/kingplus6868", new = 1)
+
+    Label(set_up.tab_setting, text = "Facebook").place(x= x,y= y +64)
+    Button(set_up.tab_setting, text= "Xem Fanpage Facebook", command= open_fb).place(x= x+ 78, y= y + 60, width= 168 )
+
+    def tab_I():
+        Tab_Setting.Tinsoft_api.delete(0, END)
+        Tab_Setting.Tinsoft_api.insert(0, pyperclip.paste())
+
+    def tab_II():
+        if len(Tab_Setting.Tinsoft_api.get()) > 0:
+            if Setting["Key"] == True:
+                with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\tinsoft.env", mode= "w") as doc_tinsoft:
+                    doc_tinsoft.write(Tab_Setting.Tinsoft_api.get())
+                Setting["tinsoft"] = Tab_Setting.Tinsoft_api.get()
+                messagebox.showinfo("Thông báo!" , "Nếu bạn không thêm đúng api,\nChrome sẽ có tình trạng mất mạng!")
+            else:
+                messagebox.showinfo("Thông báo!" , "Vui lòng kích hoạt để sử dụng chức năng Fake IP!")
+        else:
+            with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\tinsoft.env", mode= "w") as doc_tinsoft:
+                doc_tinsoft.write("")
+            Setting["tinsoft"] = ""
+        if len(Tab_Setting.Open_web.get()) > 0:
+            with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Replication\\start web.env", mode= "w") as doc_start:
+                doc_start.write(Tab_Setting.Open_web.get())
+        messagebox.showinfo("Thông báo!" , "Lưu Thành công!\nVui lòng khởi động lại.")
+    Button(set_up.tab_setting, text= "Paste Api", command= tab_I).place(x= x +2, y= y + 135, width= 121 )
+    Button(set_up.tab_setting, text= "Save", command= tab_II).place(x= x + 124, y= y + 135, width= 122 )
+
+    def open_web():
+        webbrowser.open("https://www.facebook.com/kingplus6868", new = 1)
+
+    Button(set_up.tab_setting, text="Kích Hoạt Key Bản Quyền", command= open_web).place(x= x + 2, y= y + 165, width= 244 )
+
+    Label(set_up.tab_setting, text=f"Key Bản Quyền: {set_up.license}").place(x= x, y= y + 200)
+
+main.mainloop()
