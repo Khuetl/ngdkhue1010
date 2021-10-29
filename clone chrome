@@ -37,8 +37,11 @@ class function():
         if len(Setting["name_creat"]) > 0:
             try:
                 # Mở list danh sách chrome hiện có
-                with open("list_chrome.env", mode="r") as list_chrome:
-                    name_profile_choose = list_chrome.read().split("\n")
+                try:
+                    with open("list_chrome.env", mode="r") as list_chrome:
+                        name_profile_choose = list_chrome.read().split("\n")
+                except:
+                    name_profile_choose = ("Profile 1", "Profile 2", "Profile 3")
                 # Kiểm tra điều kiện đã tồn tại
                 if Tab_function_class.name_profile.get() in name_profile_choose:
                     Label(set_up.tab_function, text="Thất bại: Tên Chrome đã tồn tại!                        ").place(x= Tab_function_class.x, y= Tab_function_class.y + 200)
@@ -118,8 +121,8 @@ class set_up():
         with open("license.env", mode= "w") as doc_license:
             number = '0123456789'
             alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-            license = ''
-            for i in range(0,20,2):
+            license = 'CHR'
+            for i in range(0,15,2):
                 license += random.choice(number)
                 license += random.choice(alpha)
             doc_license.write(license)
@@ -148,6 +151,7 @@ class Tab_function_class():
                 open_delete['values'] = list_chrome.read().split("\n")
             open_delete.current(0)
         except:
+            open_delete['values'] = ("Profile 1", "Profile 2", "Profile 3")
             open_delete.current(0)
     else:
         open_delete['values'] = ("Profile 1", "Profile 2", "Profile 3")
@@ -231,8 +235,11 @@ class Tab_Setting():
         Open_web.insert(0, "https://www.facebook.com")
     Open_web.place(x= x+ 78, y= y + 31, width= 170 )
 
+    def copy_key():
+        pyperclip.copy(set_up.license)
+
     Label(set_up.tab_setting, text = "Bản Quyền").place(x= x,y= y +97)
-    Button(set_up.tab_setting, text= "Click Copy Key Bản Quyền", command= pyperclip.copy(set_up.license)).place(x= x+ 78, y= y + 93, width= 168 )
+    Button(set_up.tab_setting, text= "Click Copy Key Bản Quyền", command= copy_key).place(x= x+ 78, y= y + 93, width= 168 )
 
     def open_fb():
         webbrowser.open("https://www.facebook.com/kingplus6868", new = 1)
