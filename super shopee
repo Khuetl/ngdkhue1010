@@ -3,15 +3,10 @@ from tkinter import ttk, messagebox, Canvas, Frame, BOTH
 from tkinter.ttk import Progressbar
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
 from time import sleep
-import os
+import pyperclip, os, getpass, webbrowser, requests, random
 from random import randint
-import getpass
-import webbrowser
 from threading import *
-import requests
-import tkinter
 
 def tab_1():
     while True:
@@ -31,6 +26,18 @@ def tab_1():
         except:
             messagebox.showinfo("Hướng dẫn!", "Phiên bản chromedriver không phù hợp với Chrome của bạn!\nVui lòng liên hệ với chúng tôi trong phần -Cài Đặt- để được hướng dẫn chi tiết")
             break
+        browser_shopee.get("https://shopee.vn/")
+        sleep(10)
+        tim_kiem = browser_shopee.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
+        key = __tab_spam_view__.link_shopee.get().replace("https://shopee.vn/", "")
+        tim_kiem.send_keys(key)
+        sleep(10)
+        tim_kiem.send_keys(Keys.ENTER)
+        try:
+            abc = randint(1, 4)
+        except:
+            abc = 1
+        sleep(10)
         browser_shopee.get(__tab_spam_view__.link_shopee.get())
         sleep(10)
         for i in range(10):
@@ -134,7 +141,11 @@ def tab_4():
     for i in a:
         text_1 = text_1 + i.text + "\n"
 
-    messagebox.askokcancel("Hoàn Tất!", "Những từ khóa được tìm kiếm đang có xu hướng phát triển là:\n______________________________________________\n" + text_1)
+    browser.quit()
+    messagebox.askokcancel("Tổng kết từ khóa!", text_1)
+
+def open_keys():
+    webbrowser.open("https://bikipseotop.blogspot.com/2021/09/thanh-toan.html", new = 1)
 
 shopee = Tk()
 class __set_up__():
@@ -150,13 +161,32 @@ class __set_up__():
     except:
         key_api_tinsoft = ""
     try:
-        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2\\build_login.env", mode= "r") as doc_key_login:
-            try_code_key_login = doc_key_login.read()
-        code_key_login = True
-        shopee.title("Super Shopee")
+        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2\\license.env", mode= "r") as doc_license:
+            license = doc_license.read()
+        try:
+            link_key = requests.get("https://driverweb2020.blogspot.com/2021/09/uqs38xyialittgbep0bojwbvtlcalb0fp2ljsw.html")
+            requests_key = link_key.text
+            if license in requests_key:
+                code_key_login = True
+                shopee.title("Super Shopee")
+                ip = 1
+            else:
+                code_key_login = False
+                shopee.title("Super Shopee (phiên bản miễn phí)")
+        except:
+            code_key_login = False
+            shopee.title("Super Shopee (phiên bản miễn phí)")
     except:
-        code_key_login = False
-        shopee.title("Super Shopee (phiên bản miễn phí)")
+        with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2\\license.env", mode= "w") as doc_license:
+            number = '0123456789'
+            alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            license = 'SSH'
+            for i in range(0,15,2):
+                license += random.choice(number)
+                license += random.choice(alpha)
+            doc_license.write(license)
+            code_key_login = False
+            shopee.title("Super Shopee (phiên bản miễn phí)")
 
 shopee_tab = ttk.Notebook(shopee)
 tab_spam_view = Frame(shopee_tab)
@@ -165,31 +195,40 @@ tab_sub = Frame(shopee_tab)
 tab_keyword = Frame(shopee_tab)
 tab_setting = Frame(shopee_tab)
 
-shopee_tab.add(tab_spam_view, text = "Tăng View Bài")
-shopee_tab.add(tab_spam_distroy, text = "Click Q.Cáo Đối Thủ")
+shopee_tab.add(tab_spam_view, text = "Tăng View")
+shopee_tab.add(tab_spam_distroy, text = "Q.Cáo Đối Thủ")
 shopee_tab.add(tab_sub, text = "Sub & Tym")
-shopee_tab.add(tab_keyword, text = "Keyword SEO")
+shopee_tab.add(tab_keyword, text = "Top Tìm Kiếm")
 shopee_tab.add(tab_setting, text = "Cài Đặt")
-shopee_tab.pack(expand = 1, fill ="both")
+shopee_tab.pack(expand = 1, fill = "both")
 
 class __tab_spam_view__():
-    x = 0
-    y = 15
+    x = 10
+    y = 10
 
     line_creat = Canvas(tab_spam_view, width=550, height=300)
     line_creat.place(x = 0, y = 0)
-    line_creat.create_line(0, 50, 550, 50, fill="#476042")
-
-    Label(tab_spam_view, text = "Công dụng: Tăng view cho bài đăng shopee của bạn\n=> Giúp cải thiện thứ tự của bạn trên kết quả tìm kiếm.").place(x = x + 60, y = y - 5)
+    line_creat.create_line(0, y + 35, 550, y + 35, fill="#476042")
 
     def hello():
        messagebox.showinfo("Hướng dẫn!", "✔️Với Phần mền Super Shopee!\n______________________________\nBạn có thể đẩy đơn nhanh chóng, tiếp cận nguồn khách hàng một cách tự nhiên, thông qua mô phỏng thao tác người dùng một cách chân thực và hoàn toàn tự đông, tạo một nguồn traffic lớn và chất lượng.\n______________________________\n👍 Với công nghệ ẩn danh uy tín từ những sản phẩm trước chúng tôi đã ứng dụng vào TOOL, tạo ra một môi trường sạch, ổn đinh.\n- Có thể cắm tự động trên vps, máy ảo.\n- Có thể đổi ip bằng nhiều cách Dcom, Tinsoft với nguồn ip sạch, không trùng lặp.\n=> Hỗ trợ tăng traffic có thể ăn đề xuất Shopee tìm kiếm!")
+    
+    def open_chrome():
+        webbrowser.open("https://www.facebook.com/thongtin456/videos/1794808890705667", new = 1)
 
-    Button(tab_spam_view, text = "Hướng dẫn", command = hello).place(x = x + 440, y = y)
+    def def_paste():
+        __tab_spam_view__.link_shopee.delete(0, END)
+        __tab_spam_view__.link_shopee.insert(0, pyperclip.paste())
+    
+    Button(tab_spam_view, text = "2. Công dụng", command = hello).place(x = x + 125, y = y)
+    Button(tab_spam_view, text = "1. Video hướng dẫn", command = open_chrome).place(x = x + 10, y = y)
+    Button(tab_spam_view, text = "3. Nâng cấp bản trả phí", command = open_keys).place(x = x + 208, y = y)
 
     Label(tab_spam_view, text = "Nhập link shop shopee cần tăng (Không phải link bài viết):").place(x = x + 10, y = y + 40)
     link_shopee = Entry(tab_spam_view)
-    link_shopee.place(x = x + 14, y = y + 60, width = 500 , height = 22)
+    link_shopee.insert(0, "Ví dụ: https://shopee.vn/min_closet")
+    link_shopee.place(x = x + 14, y = y + 60, width = 450 , height = 22)
+    Button(tab_spam_view, text = "Paste", bd = 3, command = def_paste).place(x = x + 420, y = y + 57, width = 80)
 
     Label(tab_spam_view, text = "Fake ip (Như nhiều người dùng):").place(x = x + 10, y = y + 97)
     OPTIONS = ["Có","Không"]
@@ -243,18 +282,32 @@ class __tab_spam_view__():
     Button(tab_spam_view, text = "Run", bd = 3, command = tab_1_start).place(x = x + 420, y = y + 210, width = 80)
 
 class __tab_spam_distroy__():
-    x = 0
-    y = 15
+    x = 10
+    y = 10
 
     line_creat = Canvas(tab_spam_distroy, width=550, height=300)
     line_creat.place(x = 0, y = 0)
-    line_creat.create_line(0, 52, 550, 52, fill="#476042")
+    line_creat.create_line(0, y + 37, 550, y + 37, fill="#476042")
 
-    Label(tab_spam_distroy, text = "Công dụng: Tăng view cho bài đăng shopee của bạn,\nmỗi trình duyệt tạo ra có địa chỉ riêng không trùng lặp, tương tác như người thật.\n=> Giúp cải thiện thứ tự của bạn trên kết quả tìm kiếm.").place(x = x + 50, y = y - 15)
-
+    def hello():
+           messagebox.showinfo("Hướng dẫn!", "✔️Với Phần mền Super Shopee!\n______________________________\nCông dụng: Click vào bài đăng shopee quảng cáo đối thủ,\nmỗi trình duyệt tạo ra có địa chỉ riêng không trùng lặp, tương tác như người thật.\n=> Giúp tiêu hao tài nguyên đối thủ")
+    
+    def open_chrome():
+        webbrowser.open("https://youtube.com", new = 1)
+        
+    def def_paste():
+        __tab_spam_distroy__.key_shopee.delete(0, END)
+        __tab_spam_distroy__.key_shopee.insert(0, pyperclip.paste())
+        
+    Button(tab_spam_distroy, text = "2. Công dụng", command = hello).place(x = x + 125, y = y)
+    Button(tab_spam_distroy, text = "1. Video hướng dẫn", command = open_chrome).place(x = x + 10, y = y)
+    Button(tab_spam_distroy, text = "3. Nâng cấp bản trả phí", command = open_keys).place(x = x + 208, y = y)
+    
     Label(tab_spam_distroy, text = "Nhập từ khóa cần click phá quảng cáo:").place(x = x + 10, y = y + 40)
     key_shopee = Entry(tab_spam_distroy)
-    key_shopee.place(x = x + 14, y = y + 60, width = 500 , height = 22)
+    key_shopee.insert(0, "Ví dụ: Thảm trải sàn")
+    key_shopee.place(x = x + 14, y = y + 60, width = 450 , height = 22)
+    Button(tab_spam_distroy, text = "Paste", bd = 3, command = def_paste).place(x = x + 420, y = y + 57, width = 80)
 
     Label(tab_spam_distroy, text = "Fake ip (Như nhiều người dùng):").place(x = x + 10, y = y + 97)
     OPTIONS = ["Có","Không"]
@@ -308,7 +361,7 @@ class __tab_spam_distroy__():
     Button(tab_spam_distroy, text = "Run", bd = 3, command = tab_2_start).place(x = x + 420, y = y + 210, width = 80)
 
 class __sub__():
-    x = 0
+    x = 10
     y = 15
 
     line_creat = Canvas(tab_sub, width=550, height=300)
@@ -320,15 +373,27 @@ class __sub__():
     def hello():
        messagebox.showinfo("Hướng dẫn (Phiên bản thử nghiệm)!", "✔️Với Phần mền Super Shopee!\n______________________________\nĐây hoàn toàn là sub và tym tự nhiên do người dùng thực hiện!\nVới một shop và có một lượng sub và tym cao, luôn là địa điểm uy tín mà người dùng luôn muốn mua hàng.\nHãy thực hiện nó tại đây!")
 
+    def def_paste1():
+        __sub__.link_shopee.delete(0, END)
+        __sub__.link_shopee.insert(0, pyperclip.paste())
+        
+    def def_paste2():
+        __sub__.link_sp_shopee.delete(0, END)
+        __sub__.link_sp_shopee.insert(0, pyperclip.paste())
+        
     Button(tab_sub, text = "Hướng dẫn", command = hello).place(x = x + 440, y = y)
 
     Label(tab_sub, text = "Nhập link shop của bạn (Nếu muốn tăng sub):").place(x = x + 10, y = y + 40)
     link_shopee = Entry(tab_sub)
-    link_shopee.place(x = x + 14, y = y + 60, width = 500 , height = 22)
-
+    link_shopee.insert(0, "Ví dụ: https://shopee.vn/min_closet")
+    link_shopee.place(x = x + 14, y = y + 60, width = 450 , height = 22)
+    Button(tab_sub, text = "Paste", bd = 3, command = def_paste1).place(x = x + 421, y = y + 58, width = 80)
+    
     Label(tab_sub, text = "Nhập link sản phẩm của bạn (Nếu muốn tăng tym):").place(x = x + 10, y = y + 85)
-    link_shopee = Entry(tab_sub)
-    link_shopee.place(x = x + 14, y = y + 105, width = 500 , height = 22)
+    link_sp_shopee = Entry(tab_sub)
+    link_sp_shopee.insert(0, "Ví dụ: https://shopee.vn/Nồi-Chiên-Không-Dầu-Màu-đen-EJF357BLK-i.55771655.7001631142")
+    link_sp_shopee.place(x = x + 14, y = y + 105, width = 450 , height = 22)
+    Button(tab_sub, text = "Paste", bd = 3, command = def_paste2).place(x = x + 420, y = y + 102, width = 80)
 
     def tab_sub_start():
         if __set_up__.code_key_login == True:
@@ -365,6 +430,7 @@ class __keyword__():
 
     Label(tab_keyword, text = "Nhập tên sản phẩm của bạn:").place(x = x + 10, y = y + 40)
     link_shopee = Entry(tab_keyword)
+    link_shopee.insert(0, "Ví dụ: Ví da cao cấp")
     link_shopee.place(x = x + 14, y = y + 60, width = 500 , height = 22)
 
     def tab_4_start():
@@ -385,7 +451,7 @@ class __setting__():
     line_creat.place(x = 0, y = 0)
     line_creat.create_line(0, 50, 550, 50, fill="#476042")
 
-    Label(tab_setting, text = "Công dụng: Cài đặt cấu hình!").place(x = x + 10, y = y + 5)
+    Label(tab_setting, text = "Lưu ý: dùng Ctrl + V để paste key!").place(x = x + 10, y = y + 5)
 
     def hello():
        messagebox.showinfo("Hướng dẫn!", "✔️Phần mềm có 2 bản miễn phí và mất phí\nHãy cân nhắc để mua phiên bản trả phí với đầy đủ chức năng!\nHãy luôn đầu tư để có được công cụ giúp bạn bán được nhiều hàng hơn.)")
@@ -398,6 +464,7 @@ class __setting__():
 
     Label(tab_setting, text = "Key kích hoạt bản quyền:").place(x = x + 10, y = y + 100)
     keys_shopee = Entry(tab_setting)
+    keys_shopee.insert(0, __set_up__.license)
     keys_shopee.place(x = x + 14, y = y + 120, width = 420 , height = 22)
 
     def save_api_tinsoft():
@@ -417,36 +484,14 @@ class __setting__():
             messagebox.showinfo("Thông báo!" , "Chức năng Fake ip không dành cho phiên bản miễn phí!")
 
     def kich_hoat_key():
-        import requests
-        keys_try = __setting__.keys_shopee.get()
-        if len(keys_try) > 35:
-            link_key = requests.get("https://driverweb2020.blogspot.com/2021/09/uqs38xyialittgbep0bojwbvtlcalb0fp2ljsw.html")
-            requests_key = link_key.text
-            if keys_try in requests_key:
-                try:
-                    os.chdir("C:\\Users\\" + getpass.getuser() + "\\Documents")
-                    os.mkdir("Super Shopee v2")
-                except:
-                    pass
-                os.chdir("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2")
-                with open(r"build_login.env", mode= "w") as keys:
-                    keys.write("Ban quyen thuoc ve Super Shopee")
-                    messagebox.showinfo("Thông báo!" , "Kích hoạt thành công!\nVui lòng khởi động lại phần mềm...")
-
-            else:
-                messagebox.showinfo("Thông báo!" , "Key không đúng!")
-        else:
-            messagebox.showinfo("Thông báo!" , "Key không đúng!")
+        pyperclip.copy(__set_up__.license)
 
     def open_facebook():
-        webbrowser.open("https://www.facebook.com/kingplus6868", new = 1)
-
-    def open_keys():
-        webbrowser.open("https://bikipseotop.blogspot.com/2021/09/thanh-toan.html", new = 1)
+        webbrowser.open("https://www.facebook.com/thongtin456", new = 1)
 
     Button(tab_setting, text = "Lưu", bd = 3, command = save_api_tinsoft ).place(x = x + 420, y = y + 57, width = 90)
-    Button(tab_setting, text = "Kích hoạt", bd = 3, command = kich_hoat_key).place(x = x + 420, y = y + 117, width = 90)
-    Button(tab_setting, text = "Fanpage", bd = 3, command = open_facebook).place(x = x + 457, y = y + 232, width = 90)
-    Button(tab_setting, text = "Mua key", bd = 3, command = open_keys).place(x = x + 367, y = y + 232, width = 90)
+    Button(tab_setting, text = "Copy Key", bd = 3, command = kich_hoat_key).place(x = x + 420, y = y + 117, width = 90)
+    Button(tab_setting, text = "Facebook", bd = 3, command = open_facebook).place(x = x + 457, y = y + 232, width = 90)
+    Button(tab_setting, text = "Kích hoạt", bd = 3, command = open_keys).place(x = x + 367, y = y + 232, width = 90)
     
 shopee.mainloop()
