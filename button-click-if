@@ -1,0 +1,14 @@
+from pynput.keyboard import Listener
+
+history_key = {"old": "", "new": ""}
+def anonymous(key):
+    key = str(key)
+    history_key["new"] = key
+    if history_key["new"] == "Key.f2" and history_key["old"] == "Key.alt_l":
+        raise SystemExit(0)
+    if history_key["new"] == "Key.f1" and history_key["old"] == "Key.alt_l":
+        print("abc")
+    history_key["old"] = history_key["new"]
+
+with Listener(on_press= anonymous) as keys:
+    keys.join()
