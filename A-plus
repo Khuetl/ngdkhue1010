@@ -1,0 +1,94 @@
+from tkinter import *
+from time import sleep
+from selenium import webdriver
+import pyperclip, pyautogui, win32clipboard, cv2
+from pynput.keyboard import Listener
+from threading import *
+from PIL import ImageGrab
+from io import BytesIO
+show = "500x100+0+600"
+
+class function():
+    def f_chrome():
+        chromeoptions = webdriver.ChromeOptions()
+        chromeoptions.add_argument("--window-size=400,250")
+        chromeoptions.add_argument("--window-position=0,500")
+        chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chromeoptions.add_experimental_option('useAutomationExtension', False)
+        browser = webdriver.Chrome(executable_path=r"C:\Users\Nguyen Dinh Khue\Documents\Super shopee\chromedriver.exe", options = chromeoptions)
+        browser.get("https://www.google.com/")
+        
+        
+    def send_to_clipboard(clip_type, data):
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardData(clip_type, data)
+        win32clipboard.CloseClipboard()
+
+    def f_screen():
+        img = ImageGrab.grab()
+        output = BytesIO()
+        img.convert("RGB").save(output, "BMP")
+        data = output.getvalue()[14:]
+        output.close()
+        function.send_to_clipboard(win32clipboard.CF_DIB, data)
+
+    def f_show():
+        win_show = Tk()
+        win_show.geometry(show)
+        win_show['background']='#ffffff'
+        win_show.title("")
+        text = Text(win_show, font= 'ansi')
+        text.insert(INSERT, pyperclip.paste())
+        text.pack()
+        win_show.mainloop()
+
+    def f_write():
+        old = ["À", "Á", "Â", "Ã", "È", "É", "Ê", "Ì", "Í", "Ò",
+        	"Ó", "Ô", "Õ", "Ù", "Ú", "Ý", "à", "á", "â", "ã",
+        	"è", "é", "ê", "ì", "í", "ò", "ó", "ô", "õ", "ù",
+        	"ú", "ý", "Ă", "ă", "Đ", "đ", "Ĩ", "ĩ", "Ũ", "ũ",
+        	"Ơ", "ơ", "Ư", "ư", "Ạ", "ạ", "Ả", "ả", "Ấ", "ấ",
+        	"Ầ", "ầ", "Ẩ", "ẩ", "Ẫ", "ẫ", "Ậ", "ậ", "Ắ", "ắ",
+        	"Ằ", "ằ", "Ẳ", "ẳ", "Ẵ", "ẵ", "Ặ", "ặ", "Ẹ", "ẹ",
+        	"Ẻ", "ẻ", "Ẽ", "ẽ", "Ế", "ế", "Ề", "ề", "Ể", "ể",
+        	"Ễ", "ễ", "Ệ", "ệ", "Ỉ", "ỉ", "Ị", "ị", "Ọ", "ọ",
+        	"Ỏ", "ỏ", "Ố", "ố", "Ồ", "ồ", "Ổ", "ổ", "Ỗ", "ỗ",
+        	"Ộ", "ộ", "Ớ", "ớ", "Ờ", "ờ", "Ở", "ở", "Ỡ", "ỡ",
+        	"Ợ", "ợ", "Ụ", "ụ", "Ủ", "ủ", "Ứ", "ứ", "Ừ", "ừ",
+        	"Ử", "ử", "Ữ", "ữ", "Ự", "ự", "Ỳ", "ỳ", "Ỵ", "ỵ",
+        	"Ỷ", "ỷ", "Ỹ", "ỹ"]
+        new = ["Af" , "As" , "Aa" , "Ax" , "Ef" , "Es" , "Ee" , "If" , "Is" , "Of" ,
+            "Os" , "Oo" , "Ox" , "Uf" , "Us" , "Ys" , "af" , "as" , "aa" , "ax" ,
+            "ef" , "es" , "ee" , "if" , "is" , "of" , "os" , "oo" , "ox" , "uf" ,
+            "us" , "ys" , "Aw" , "aw" , "DD" , "dd" , "Ix" , "ix" , "Ux" , "ux" ,
+            "Ow" , "ow" , "Uw" , "uw" , "Aj" , "aj" , "Ar" , "ar" , "Aas", "aas",
+            "Aaf", "aaf", "Aar", "aar", "Aax", "aax", "Aaj", "aaj", "Aws", "aws",
+            "Awf", "awf", "Awr", "awr", "Awx", "awx", "Awj", "awj", "Ej" , "ej" ,
+            "Er" , "er" , "Ex" , "ex" , "Ees", "ees", "Eef", "eef", "Eer", "eer",
+            "Eex", "eex", "Eej", "eej", "Ir" , "ir" , "Ij" , "ij" , "Oj" , "oj" ,
+            "Or" , "or" , "Oos", "oos", "Oof", "oof", "Oor", "oor", "Oox", "oox",
+            "Ooj", "ooj", "Ows", "ows", "Owf", "owf", "Owr", "owr", "Owx", "owx",
+            "Owj", "owj", "Uj" , "uj" , "Ur" , "ur" , "Uws", "uws", "Uwf", "uwf",
+            "Uwr", "uwr", "Uwx", "uwx", "Uwj", "uwj", "Yf" , "yf" , "Yj" , "yj" ,
+            "Yr" , "yr" , "Yx" , "yx"]
+        content = pyperclip.paste()
+        sleep(5)
+        for i in range(len(old)):
+            content = content.replace(old[i], new[i])
+        for i in content:
+            pyautogui.press(i)
+
+main = Tk()
+main.title("")
+main.geometry("+0+645")
+main['background']='#ffffff'
+
+
+
+Button(main, text= "Chrome", command= lambda: Thread(target= function.f_chrome).start()).grid(column=0, row=0)
+Button(main, text= "Screen", command= lambda: Thread(target= function.f_screen).start()).grid(column=0, row=1)
+Button(main, text= "Show", command= lambda: Thread(target= function.f_show).start()).grid(column=1, row=0)
+Button(main, text= "Write", command= lambda: Thread(target= function.f_write).start()).grid(column=1, row=1)
+
+main.mainloop()
