@@ -6,10 +6,12 @@ import autoit
 from win32gui import *
 from random import randint
 
-key_word = "tai nghe"
+keyword = "tai nghe"
 len_profile = 4
 txt = ""
-image = r"C:\Users\Nguyen Dinh Khue\Pictures\Screenshots\1 (2).png"
+image = r"C:\Users\Nguyen Dinh Khue\Documents\Super shopee\ATP\qcao.png"
+keyword.replace(" ", "%20")
+time_sleep = 5
 
 def click_send_autoit():
     sleep(15)
@@ -35,29 +37,14 @@ for i in range(1):
     browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options= chromeoptions)
 
     class inbox_keyword():
-        browser.get("https://shopee.vn")
+        # Khởi tạo
+        number_page = str(randint(0, 9))
+        if number_page != "0":
+            browser.get("https://shopee.vn/search?keyword=" + keyword + "&page=" + number_page )
+        else:
+            browser.get("https://shopee.vn/search?keyword=" + keyword)
         print(f"- Khởi tạo thành công chrome {i}!")
-        sleep(10)
-
-        for i1 in range(5):
-            try:
-                keyword = browser.find_element_by_class_name("shopee-searchbar-input__input")
-                keyword.send_keys(key_word)
-                keyword.send_keys(Keys.ENTER)
-                print("Thành công: điền keyword!")
-                break
-            except:
-                print("Thất bại: điền keyword!")
-                sleep(3)
-        sleep(5)
-
-        # Chọn số trang
-        try:
-            number = str(randint(1, 10))
-        except:
-            number = "1"
-        browser.get(browser.current_url + "&page=" + number)
-        sleep(10)
+        sleep(time_sleep)
 
         # Chọn sản phẩm
         list_class_name_san_pham = ('//*[@id="main"]/div/div[3]/div/div[2]/div[3]/div[2]/div[' ,
