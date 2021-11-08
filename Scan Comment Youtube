@@ -1,0 +1,24 @@
+from selenium import webdriver
+from time import sleep
+
+chromeoptions = webdriver.ChromeOptions()
+chromeoptions.add_argument("--window-position=-999,-999")
+prefs = {"profile.managed_default_content_settings.images": 2}
+chromeoptions.add_experimental_option("prefs", prefs)
+browser = webdriver.Chrome(executable_path=r"C:\Users\Nguyen Dinh Khue\Documents\Super shopee\chromedriver.exe", options = chromeoptions)
+browser.get("https://www.youtube.com/watch?v=cHpNIZjxzsY")
+
+# Scroll down
+sleep(3)
+for i in range(500):
+    browser.execute_script("window.scrollTo(0, window.scrollY + 10)")
+
+# Scan data comment in youtube link
+a = browser.find_elements_by_id("content-text")    
+with open("content.txt", mode= "w", encoding="utf-8") as txt:
+    content = ""
+    for i in a:
+        content = content + i.text + "\n"
+    done = content.rstrip('\n')
+    txt.write(done)
+    browser.quit()
