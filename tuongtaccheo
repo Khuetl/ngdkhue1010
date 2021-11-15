@@ -77,7 +77,7 @@ class login_tuongtaccheo():
     sleep(1)
     browser.get("https://tuongtaccheo.com/tiktok/kiemtien/subcheo/")
 
-while True:
+for stt in range(100):
     for w in range(3):
         class tuongtaccheo():
             global url
@@ -94,7 +94,7 @@ while True:
                 except:
                     pass
             sleep(2)
-            print("Lấy Nhiệm Vụ Thành Công")
+            print("Lấy Nhiệm Vụ Thành Công "+ stt)
             # chuyển sang tab số 3 và lấy url
             browser.switch_to.window(browser.window_handles[2])
             url = browser.current_url
