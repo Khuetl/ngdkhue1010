@@ -55,7 +55,6 @@ class tiktok():
         if IsWindow(hwnd) and IsWindowEnabled(hwnd) and IsWindowVisible(hwnd):
             titles.append(GetWindowText(hwnd))
     EnumWindows(foo, 0)
-    print(titles)
     for i in titles:
         if "TikTok" in i:
             autoit.control_click(i, "",x = 814,y= 268)
@@ -112,7 +111,6 @@ while True:
                 if IsWindow(hwnd) and IsWindowEnabled(hwnd) and IsWindowVisible(hwnd):
                     titles.append(GetWindowText(hwnd))
             EnumWindows(foo, 0)
-            print(titles)
             for i in titles:
                 if "TikTok" in i:
                     autoit.control_click(i, "",x = 814,y= 268)
