@@ -8,9 +8,12 @@ login = False
 
 class set_up():
     global browser
-    autoit.win_move("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", x = 170 ,y= 70,width = 300, height = 500 )
-    autoit.win_set_title("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", "shopee part 1")
-    autoit.win_set_state("Tương Tác Chéo", flag=autoit.autoit.Properties.SW_MINIMIZE)
+    try:
+        autoit.win_move("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", x = 170 ,y= 70,width = 300, height = 500 )
+        autoit.win_set_title("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", "shopee part 1")
+        autoit.win_set_state("Tương Tác Chéo", flag=autoit.autoit.Properties.SW_MINIMIZE)
+    except:
+        pass
     userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile google 3"
     chromeoptions = webdriver.ChromeOptions()
     chromeoptions.add_argument("--start-maximized")
