@@ -15,7 +15,7 @@ class set_up():
     userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile google 3"
     chromeoptions = webdriver.ChromeOptions()
     chromeoptions.add_argument("--start-maximized")
-    chromeoptions.add_argument("--window-position=-999,-999")
+    # chromeoptions.add_argument("--window-position=-999,-999")
     chromeoptions.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
     chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
     chromeoptions.add_experimental_option('useAutomationExtension', False)
@@ -45,19 +45,6 @@ class tiktok():
         except:
             if i == "/html/body/div[1]/div[2]/div[2]/div[1]/div[1]/div/div[1]/div[1]/a[2]":
                 print("Chương Trình Lỗi 1")
-    
-    # test follow có thành công không (Autoit) (2)
-    global titles
-    titles = [""]
-    def foo(hwnd,nouse):
-        if IsWindow(hwnd) and IsWindowEnabled(hwnd) and IsWindowVisible(hwnd):
-            titles.append(GetWindowText(hwnd))
-    EnumWindows(foo, 0)
-    for i in titles:
-        if "TikTok" in i:
-            autoit.control_click(i, "",x = 814,y= 268)
-            sleep(3)
-            break
     
     # tạo tab mới (tab tuongtaccheo)
     browser.execute_script('''window.open();''')
