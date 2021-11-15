@@ -10,12 +10,13 @@ class set_up():
     global browser
     try:
         autoit.win_move("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", x = 170 ,y= 70,width = 300, height = 500 )
+        autoit.win_set_title("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", "Tương Tác Chéo")
     except:
         pass
     userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile google 3"
     chromeoptions = webdriver.ChromeOptions()
     chromeoptions.add_argument("--start-maximized")
-    # chromeoptions.add_argument("--window-position=-999,-999")
+    chromeoptions.add_argument("--window-position=-999,-999")
     chromeoptions.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
     chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
     chromeoptions.add_experimental_option('useAutomationExtension', False)
@@ -80,7 +81,7 @@ for stt in range(100):
                 except:
                     pass
             sleep(2)
-            print("Lấy Nhiệm Vụ Thành Công "+ stt)
+            print("Lấy Nhiệm Vụ Thành Công "+ str(stt))
             # chuyển sang tab số 3 và lấy url
             browser.switch_to.window(browser.window_handles[2])
             url = browser.current_url
