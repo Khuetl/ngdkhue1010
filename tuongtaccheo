@@ -2,12 +2,13 @@ from selenium import webdriver
 from selenium_stealth import stealth
 from time import sleep
 from win32gui import *
-import autoit
+import autoit, random
 
 login = False
 
 class set_up():
-    global browser
+    global browser, ketqua
+    ketqua = {"ThanhCong": 0, "ThatBai": 0}
     try:
         autoit.win_move("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", x = 170 ,y= 70,width = 300, height = 500 )
         autoit.win_set_title("C:\\Users\\Nguyen Dinh Khue\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", "Tương Tác Chéo")
@@ -63,6 +64,7 @@ class login_tuongtaccheo():
     browser.find_element_by_name("submit").click()
     sleep(1)
     browser.get("https://tuongtaccheo.com/tiktok/kiemtien/subcheo/")
+    print("Số dư: " + browser.find_element_by_id("soduchinh").text)
 
 for stt in range(100):
     for w in range(3):
@@ -81,10 +83,10 @@ for stt in range(100):
                 except:
                     pass
             sleep(2)
-            print("Lấy Nhiệm Vụ Thành Công "+ str(stt))
             # chuyển sang tab số 3 và lấy url
             browser.switch_to.window(browser.window_handles[2])
             url = browser.current_url
+            print("Nv "+ str(3*stt + w + 1) + ": " + url.replace("https://www.tiktok.com/", ""))
             browser.close()
 
         class follow():
@@ -101,10 +103,16 @@ for stt in range(100):
                 if "TikTok" in i:
                     autoit.control_click(i, "",x = 814,y= 268)
                     sleep(5)
-                    print("Hoàn Thành Nhiệm Vụ")
                     break
-            sleep(3)
+            try:
+                sleep(random.randint(10,15))
+            except:
+                sleep(12)
     browser.switch_to.window(browser.window_handles[1])
     browser.find_element_by_id("nhanall").click()
-    sleep(10)
+    try:
+        sleep(random.randint(15,30))
+    except:
+        sleep(20)
     browser.get("https://tuongtaccheo.com/tiktok/kiemtien/subcheo/")
+    print("Số dư: " + browser.find_element_by_id("soduchinh").text)
