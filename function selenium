@@ -30,3 +30,10 @@ for i in list_xpath:
     except:
         pass
 sleep(5)
+
+# click position
+position= browser.find_elements_by_xpath("/html/body/div[1]/div[1]/div/div/div/div[2]/a")[0]
+action = webdriver.common.action_chains.ActionChains(browser)
+action.move_to_element_with_offset(position, 5, 5)
+action.click()
+action.perform()
