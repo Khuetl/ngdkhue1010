@@ -2,13 +2,17 @@
 from selenium import webdriver
 from selenium_stealth import stealth
 from time import sleep
-options = webdriver.ChromeOptions()
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option('useAutomationExtension', False)
-options.add_argument('--disable-blink-features=AutomationControlled')
-driver = webdriver.Chrome(executable_path=r"C:\Users\Nguyen Dinh Khue\Documents\Lập Trình Python\new chrome\chromedriver.exe",options=options)
-stealth(driver,
+userdatadir = r"C:\Users\Nguyen Dinh Khue\AppData\Local\Google\Chrome\User Data\Profile google 3"
+chromeoptions = webdriver.ChromeOptions()
+chromeoptions.add_argument("--start-maximized")
+chromeoptions.add_argument("--window-position=-999,-999")
+chromeoptions.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
+chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+chromeoptions.add_experimental_option('useAutomationExtension', False)
+chromeoptions.add_argument(f"--user-data-dir={userdatadir}")
+chromeoptions.add_argument('--disable-blink-features=AutomationControlled')
+browser = webdriver.Chrome(executable_path=r"C:\Users\Nguyen Dinh Khue\Documents\Lập Trình Python\new chrome\chromedriver.exe",options= chromeoptions)
+stealth(browser,
      languages=["en-US", "en"],
      vendor="Google Inc.",
      platform="Win32",
@@ -16,7 +20,6 @@ stealth(driver,
      renderer="Intel Iris OpenGL Engine",
      fix_hairline=True,
      )
-driver.get("https://www.google.com")
 
 # Click vào list Xpath
 list_xpath = ()
