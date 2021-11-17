@@ -1,5 +1,7 @@
+# Cài đặt để có thể đăng nhập như chrome thường
 from selenium import webdriver
 from selenium_stealth import stealth
+from time import sleep
 options = webdriver.ChromeOptions()
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -15,3 +17,13 @@ stealth(driver,
      fix_hairline=True,
      )
 driver.get("https://www.google.com")
+
+# Click vào list Xpath
+list_xpath = ()
+for i in list_xpath:
+    try:
+        browser.find_element_by_xpath(i).click()
+        break
+    except:
+        pass
+sleep(5)
