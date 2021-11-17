@@ -29,11 +29,11 @@ class set_up():
          renderer="Intel Iris OpenGL Engine",
          fix_hairline=True,
          )
+    browser.set_window_size(1050, 708)
+    browser.set_window_position(-1024, -1024, windowHandle ='current')
 
 class tiktok():
     # click vào video đầu tiên trong tiktok (1)
-    browser.set_window_size(1050, 708)
-    browser.set_window_position(-1024, -1024, windowHandle ='current')
     browser.get("https://www.tiktok.com")
     sleep(5)
     lis_check = ("/html/body/div/div/div[2]/div[2]/div/div[1]/span[1]/div/div/div[1]/a[1]",
