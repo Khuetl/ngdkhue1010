@@ -1,0 +1,18 @@
+import requests
+
+# lưu phiên dữ liệu
+a = requests.session()
+
+# cập nhật hea
+headers = {}
+a.headers.update(headers)
+
+data = {<data bao gồm tài khoản, mật khẩu, payload,...}
+
+b = a.post("https://tuongtaccheo.com/login.php", data=data, timeout=10)
+a.cookies.update(b.cookies.get_dict())
+
+xu = a.get("https://tuongtaccheo.com/home.php")
+print(xu.text)
+pxu = xu.text.split('id="soduchinh">')[1].split('</strong>')[0]
+print(pxu)
