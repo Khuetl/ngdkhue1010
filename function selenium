@@ -23,9 +23,9 @@ stealth(browser,
 
 # Click vào list Xpath
 list_xpath = ()
-for i in list_xpath:
+for xpath in list_xpath:
     try:
-        browser.find_element_by_xpath(i).click()
+        browser.find_element_by_xpath(xpath).click()
         break
     except:
         pass
