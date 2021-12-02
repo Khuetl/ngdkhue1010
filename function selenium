@@ -37,3 +37,7 @@ action = webdriver.common.action_chains.ActionChains(browser)
 action.move_to_element_with_offset(position, 5, 5)
 action.click()
 action.perform()
+
+# chuyển tab
+browser.switch_to.window(browser.window_handles[1])
+browser.execute_script('''window.open();''')
