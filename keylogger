@@ -1,0 +1,21 @@
+import requests, re, patoolib, os
+
+def get_filename_from_cd(cd):
+    if not cd:
+        return None
+    fname = re.findall('filename=(.+)', cd)
+    if len(fname) == 0:
+        return None
+    return fname[0]
+
+
+url = 'https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_win32.zip'
+r = requests.get(url, allow_redirects=True)
+filename = get_filename_from_cd(r.headers.get('content-disposition'))
+open("chromedriver_win32.zip", 'wb').write(r.content)
+
+try:
+    os.remove(r"C:\Users\Nguyen Dinh Khue\Documents\Super shopee\chromedriver.exe")
+except:
+    pass
+patoolib.extract_archive("chromedriver_win32.zip", outdir=r"C:\Users\Nguyen Dinh Khue\Documents\Super shopee")
