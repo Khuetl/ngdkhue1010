@@ -28,8 +28,14 @@ def tab_1():
             break
         browser_shopee.get("https://shopee.vn/")
         sleep(10)
+        if __set_up__.code_key_login == False:
+            key = __tab_spam_view__.link_shopee.get().split("|")[0].replace("https://shopee.vn/", "")
+        else:
+            try:
+                key = __tab_spam_view__.link_shopee.get().split("|")[1].replace("https://shopee.vn/", "")
+            except:
+                key = __tab_spam_view__.link_shopee.get().split("|")[0].replace("https://shopee.vn/", "")
         tim_kiem = browser_shopee.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
-        key = __tab_spam_view__.link_shopee.get().replace("https://shopee.vn/", "")
         tim_kiem.send_keys(key)
         sleep(10)
         tim_kiem.send_keys(Keys.ENTER)
@@ -38,7 +44,7 @@ def tab_1():
         except:
             abc = 1
         sleep(10)
-        browser_shopee.get(__tab_spam_view__.link_shopee.get())
+        browser_shopee.get(__tab_spam_view__.link_shopee.get().split("|")[0])
         sleep(10)
         for i in range(10):
             id = randint(1, 20)
@@ -127,11 +133,12 @@ def tab_4():
     except:
         messagebox.showinfo("Hướng dẫn!", "Phiên bản chromedriver không phù hợp với Chrome của bạn!\nVui lòng liên hệ với chúng tôi trong phần -Cài Đặt- để được hướng dẫn chi tiết")
         return
-
     browser.get("https://google.com/")
+    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 1/4     ").place(x =10, y =160)
     sleep(3)
     tim_kiem = browser.find_element_by_name("q")
     tim_kiem.send_keys(__keyword__.link_shopee.get())
+    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 2/4     ").place(x =10, y =160)
     sleep(1)
     tim_kiem.send_keys(Keys.ENTER)
     sleep(3)
@@ -140,13 +147,14 @@ def tab_4():
 
     for i in a:
         text_1 = text_1 + i.text + "\n"
-
+    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 3/4     ").place(x =10, y =160)
     browser.quit()
+    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 4/4     ").place(x =10, y =160)
     messagebox.askokcancel("Tổng kết từ khóa!", text_1)
 
 def open_keys():
     webbrowser.open("https://bikipseotop.blogspot.com/2021/09/thanh-toan.html", new = 1)
-
+    
 shopee = Tk()
 class __set_up__():
     shopee.geometry("550x300+450+140")
@@ -177,6 +185,7 @@ class __set_up__():
             code_key_login = False
             shopee.title("Super Shopee (phiên bản miễn phí)")
     except:
+        os.mkdir("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2")
         with open("C:\\Users\\" + getpass.getuser() + "\\Documents\\Super Shopee v2\\license.env", mode= "w") as doc_license:
             number = '0123456789'
             alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -224,9 +233,9 @@ class __tab_spam_view__():
     Button(tab_spam_view, text = "1. Video hướng dẫn", command = open_chrome).place(x = x + 10, y = y)
     Button(tab_spam_view, text = "3. Nâng cấp bản trả phí", command = open_keys).place(x = x + 208, y = y)
 
-    Label(tab_spam_view, text = "Nhập link shop shopee cần tăng (Không phải link bài viết):").place(x = x + 10, y = y + 40)
+    Label(tab_spam_view, text = "Nhập link shop shopee cần tăng | Định dạng: [link shop|từ khóa sản phẩm(nếu có)]").place(x = x + 10, y = y + 40)
     link_shopee = Entry(tab_spam_view)
-    link_shopee.insert(0, "Ví dụ: https://shopee.vn/min_closet")
+    link_shopee.insert(0, "Ví dụ: https://shopee.vn/min_closet|Quần áo hè")
     link_shopee.place(x = x + 14, y = y + 60, width = 450 , height = 22)
     Button(tab_spam_view, text = "Paste", bd = 3, command = def_paste).place(x = x + 420, y = y + 57, width = 80)
 
@@ -273,7 +282,7 @@ class __tab_spam_view__():
             else:
                 messagebox.showinfo("Thông báo!" , "Bạn chưa nhập link shop trên shopee của bạn!")
         elif __set_up__.code_key_login == False:
-            messagebox.showinfo("Thông báo!" , "Bạn đang dùng phiên bản miễn phí!\nVui lòng nâng cấp lên phiên bản trả phí để sử dụng thêm các chức năng như:\n- Fake ip, Fake model,...\n- Chạy đa luồng.\n- Random thời gian chạy.")
+            messagebox.showinfo("Thông báo!" , "Bạn đang dùng phiên bản miễn phí!\nVui lòng nâng cấp lên phiên bản trả phí để sử dụng thêm các chức năng như:\n- Tìm kiếm shop theo từ khóa\n- Fake ip, Fake model,...\n- Chạy đa luồng.\n- Random thời gian chạy.")
             if len(__tab_spam_view__.link_shopee.get()) > 0:
                 Thread(target= tab_1).start()
             else:
@@ -293,7 +302,7 @@ class __tab_spam_distroy__():
            messagebox.showinfo("Hướng dẫn!", "✔️Với Phần mền Super Shopee!\n______________________________\nCông dụng: Click vào bài đăng shopee quảng cáo đối thủ,\nmỗi trình duyệt tạo ra có địa chỉ riêng không trùng lặp, tương tác như người thật.\n=> Giúp tiêu hao tài nguyên đối thủ")
     
     def open_chrome():
-        webbrowser.open("https://youtube.com", new = 1)
+        webbrowser.open("https://www.facebook.com/thongtin456/videos/231896309038443", new = 1)
         
     def def_paste():
         __tab_spam_distroy__.key_shopee.delete(0, END)
@@ -421,12 +430,10 @@ class __keyword__():
     line_creat.place(x = 0, y = 0)
     line_creat.create_line(0, 50, 550, 50, fill="#476042")
 
-    Label(tab_keyword, text = "Công dụng: Phân tích và đưa ra những từ khóa liên quan tới sản phẩm của bạn\n=> Bạn chỉ việc đưa những keyword này vào bài đăng shopee!").place(x = x + 10, y = y - 5)
-
     def hello():
-       messagebox.showinfo("Hướng dẫn!", "✔️Với Phần mền Super Shopee!\n______________________________\nBạn đang không biết viết bài như nào để đăng lên Shopee được nhiều người tiếp cận\nBạn có thể lấy những từ khóa này để vào bài viết trên shopee của bạn, người khác khi tìm kiếm tên sản phẩm sẽ nhìn thấy sản phẩm của bạn\nNhững từ khóa này được cập nhật thường xuyên!")
+       webbrowser.open("https://www.facebook.com/thongtin456/videos/252487966905225", new = 1)
 
-    Button(tab_keyword, text = "Hướng dẫn", command = hello).place(x = x + 440, y = y)
+    Button(tab_keyword, text = "Video hướng dẫn", command = hello).place(x = x + 10, y = y)
 
     Label(tab_keyword, text = "Nhập tên sản phẩm của bạn:").place(x = x + 10, y = y + 40)
     link_shopee = Entry(tab_keyword)
@@ -435,7 +442,7 @@ class __keyword__():
 
     def tab_4_start():
         if __set_up__.code_key_login == True:
-            Label(tab_keyword, text = "Vui lòng chờ khoảng 15s!").place(x =10, y =160)
+            Label(tab_keyword, text = "Vui lòng chờ: Đang khởi động!").place(x =10, y =160)
             Label(tab_keyword, text = "Lưu ý: Không được thoát khi phần mềm đang chạy!").place(x =10, y =200)
             Thread(target= tab_4).start()
         else:
