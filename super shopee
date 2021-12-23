@@ -4,7 +4,7 @@ from tkinter.ttk import Progressbar
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-import pyperclip, os, getpass, webbrowser, requests, random
+import pyperclip, os, getpass, webbrowser, requests, random, chromedriver_autoinstaller
 from random import randint
 from threading import *
 
@@ -24,57 +24,58 @@ def tab_1():
             chromeoptions.add_argument("--window-size=400,650")
             browser_shopee = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
         except:
+            chromedriver_autoinstaller.install(r"chromedriver.exe")
             messagebox.showinfo("Hướng dẫn!", "Phiên bản chromedriver không phù hợp với Chrome của bạn!\nVui lòng liên hệ với chúng tôi trong phần -Cài Đặt- để được hướng dẫn chi tiết")
             break
-        browser_shopee.get("https://shopee.vn/")
-        sleep(10)
-        if __set_up__.code_key_login == False:
-            key = __tab_spam_view__.link_shopee.get().split("|")[0].replace("https://shopee.vn/", "")
-        else:
-            try:
-                key = __tab_spam_view__.link_shopee.get().split("|")[1].replace("https://shopee.vn/", "")
-            except:
+        try:
+            browser_shopee.get("https://shopee.vn/")
+            sleep(10)
+            if __set_up__.code_key_login == False:
                 key = __tab_spam_view__.link_shopee.get().split("|")[0].replace("https://shopee.vn/", "")
-        tim_kiem = browser_shopee.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
-        tim_kiem.send_keys(key)
-        sleep(10)
-        tim_kiem.send_keys(Keys.ENTER)
-        try:
-            abc = randint(1, 4)
-        except:
-            abc = 1
-        sleep(10)
-        browser_shopee.get(__tab_spam_view__.link_shopee.get().split("|")[0])
-        sleep(10)
-        for i in range(10):
-            id = randint(1, 20)
+            else:
+                try:
+                    key = __tab_spam_view__.link_shopee.get().split("|")[1].replace("https://shopee.vn/", "")
+                except:
+                    key = __tab_spam_view__.link_shopee.get().split("|")[0].replace("https://shopee.vn/", "")
+            tim_kiem = browser_shopee.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
+            tim_kiem.send_keys(key)
+            sleep(10)
+            tim_kiem.send_keys(Keys.ENTER)
             try:
-                browser_shopee.find_element_by_xpath('//*[@id="main"]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/div/div/a[' + str(id) + ']').click()
-                break
+                abc = randint(1, 4)
             except:
-                sleep(0.5)
-        sleep(10)
-        for i in range(10):
-            try:
-                browser_shopee.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div/div[2]/div/div[2]/div/div[1]').click()
-                break
-            except:
-                sleep(0.5)
-        sleep(10)
-        for i in range(1000):
-            browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
-            sleep(0.0003)
-        for i in range(500):
-            browser_shopee.execute_script("window.scrollTo(0, window.scrollY - 1)")
-            sleep(0.0001)
-        for i in range(500):
-            browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
-            sleep(0.0001)
-        sleep(5)
-        try:
+                abc = 1
+            sleep(10)
+            browser_shopee.get(__tab_spam_view__.link_shopee.get().split("|")[0])
+            sleep(10)
+            for i in range(10):
+                id = randint(1, 20)
+                try:
+                    browser_shopee.find_element_by_xpath('//*[@id="main"]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/div/div/a[' + str(id) + ']').click()
+                    break
+                except:
+                    sleep(0.5)
+            sleep(10)
+            for i in range(10):
+                try:
+                    browser_shopee.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div/div[2]/div/div[2]/div/div[1]').click()
+                    break
+                except:
+                    sleep(0.5)
+            sleep(10)
+            for i in range(1000):
+                browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
+                sleep(0.0003)
+            for i in range(500):
+                browser_shopee.execute_script("window.scrollTo(0, window.scrollY - 1)")
+                sleep(0.0001)
+            for i in range(500):
+                browser_shopee.execute_script("window.scrollTo(0, window.scrollY + 1)")
+                sleep(0.0001)
+            sleep(5)
             browser_shopee.quit()
         except:
-            break
+            browser_shopee.quit()
 
 def tab_2():
     while True:
@@ -92,37 +93,37 @@ def tab_2():
             chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
             browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
         except:
+            chromedriver_autoinstaller.install(r"chromedriver.exe")
             messagebox.showinfo("Hướng dẫn!", "Phiên bản chromedriver không phù hợp với Chrome của bạn!\nVui lòng liên hệ với chúng tôi trong phần -Cài Đặt- để được hướng dẫn chi tiết")
             break
-
-        browser.get("https://shopee.vn/")
-        sleep(10)
-        tim_kiem = browser.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
-        tim_kiem.send_keys(__tab_spam_distroy__.key_shopee.get())
-        sleep(10)
-        tim_kiem.send_keys(Keys.ENTER)
         try:
-            abc = randint(1, 4)
-        except:
-            abc = 1
-        sleep(10)
-        try:
-            browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div[2]/div[2]/div[' + str(abc) + ']').click()
-        except:
-            browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div/div[2]/div[' + str(abc) + ']').click()
-        for i in range(1000):
-            browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
-            sleep(0.0003)
-        for i in range(500):
-            browser.execute_script("window.scrollTo(0, window.scrollY - 1)")
-            sleep(0.0001)
-        for i in range(500):
-            browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
-            sleep(0.0001)
-        try:
+            browser.get("https://shopee.vn/")
+            sleep(10)
+            tim_kiem = browser.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/div/form/input")
+            tim_kiem.send_keys(__tab_spam_distroy__.key_shopee.get())
+            sleep(10)
+            tim_kiem.send_keys(Keys.ENTER)
+            try:
+                abc = randint(1, 4)
+            except:
+                abc = 1
+            sleep(10)
+            try:
+                browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div[2]/div[2]/div[' + str(abc) + ']').click()
+            except:
+                browser.find_element_by_xpath('//*[@id="main"]/div/div[3]/div/div[2]/div/div[2]/div[' + str(abc) + ']').click()
+            for i in range(1000):
+                browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
+                sleep(0.0003)
+            for i in range(500):
+                browser.execute_script("window.scrollTo(0, window.scrollY - 1)")
+                sleep(0.0001)
+            for i in range(500):
+                browser.execute_script("window.scrollTo(0, window.scrollY + 1)")
+                sleep(0.0001)
             browser.quit()
         except:
-            break
+            browser.quit()
 
 def tab_4():
     try:
@@ -131,26 +132,29 @@ def tab_4():
         chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
         browser = webdriver.Chrome(executable_path=r"chromedriver.exe", options = chromeoptions)
     except:
+        chromedriver_autoinstaller.install(r"chromedriver.exe")
         messagebox.showinfo("Hướng dẫn!", "Phiên bản chromedriver không phù hợp với Chrome của bạn!\nVui lòng liên hệ với chúng tôi trong phần -Cài Đặt- để được hướng dẫn chi tiết")
         return
-    browser.get("https://google.com/")
-    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 1/4     ").place(x =10, y =160)
-    sleep(3)
-    tim_kiem = browser.find_element_by_name("q")
-    tim_kiem.send_keys(__keyword__.link_shopee.get())
-    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 2/4     ").place(x =10, y =160)
-    sleep(1)
-    tim_kiem.send_keys(Keys.ENTER)
-    sleep(3)
-    a = browser.find_elements_by_class_name("AJLUJb")
-    text_1 = ""
-
-    for i in a:
-        text_1 = text_1 + i.text + "\n"
-    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 3/4     ").place(x =10, y =160)
-    browser.quit()
-    Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 4/4     ").place(x =10, y =160)
-    messagebox.askokcancel("Tổng kết từ khóa!", text_1)
+    try:
+        browser.get("https://google.com/")
+        Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 1/4     ").place(x =10, y =160)
+        sleep(3)
+        tim_kiem = browser.find_element_by_name("q")
+        tim_kiem.send_keys(__keyword__.link_shopee.get())
+        Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 2/4     ").place(x =10, y =160)
+        sleep(1)
+        tim_kiem.send_keys(Keys.ENTER)
+        sleep(3)
+        a = browser.find_elements_by_class_name("AJLUJb")
+        text_1 = ""
+        for i in a:
+            text_1 = text_1 + i.text + "\n"
+        Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 3/4     ").place(x =10, y =160)
+        browser.quit()
+        Label(tab_keyword, text = "Vui lòng chờ: Hoàn thành 4/4     ").place(x =10, y =160)
+        messagebox.askokcancel("Tổng kết từ khóa!", text_1)
+    except:
+        browser.quit()
 
 def open_keys():
     webbrowser.open("https://bikipseotop.blogspot.com/2021/09/thanh-toan.html", new = 1)
