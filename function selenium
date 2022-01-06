@@ -41,3 +41,6 @@ action.perform()
 # chuyển tab
 browser.switch_to.window(browser.window_handles[1])
 browser.execute_script('''window.open();''')
+
+# mặc định tải xuống
+chromeoptions.add_experimental_option("prefs",{"download.default_directory" : r"C:\Users\Nguyen Dinh Khue\Downloads"})
