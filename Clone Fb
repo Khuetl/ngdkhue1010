@@ -1,0 +1,67 @@
+import subprocess, autoit, pyautogui, chromedriver_autoinstaller, pyperclip
+from selenium import webdriver
+from time import sleep
+device = "emulator-5554"
+
+# subprocess.call("adb -e -s emulator-5556 install facebook.apk")
+# os.chdir(r"F:\Lập Trình Python\Reg facebook")
+def auto_click(x, y, z):
+    subprocess.call(f"adb -s {device} shell input tap {x} {y}")
+    sleep(z)
+    
+def click_image(path, delay):
+    print("Find image: "+ path.split("\\")[-1])
+    try:
+        x, y = pyautogui.locateCenterOnScreen(path)
+        pyautogui.click(x, y)
+        sleep(delay)
+    except:
+        pass
+    for i in range(3):
+        try:
+            x, y = pyautogui.locateCenterOnScreen(path)
+            pyautogui.click(x, y)
+            sleep(delay)
+            return
+        except:
+            sleep(1)
+    print("No image found")
+
+def open_mail():
+    global browser, email
+    chromeoptions = webdriver.ChromeOptions()
+    chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
+    chromeoptions.add_argument("--window-size=300,350")
+    browser = webdriver.Chrome(executable_path=r"F:\Lập Trình Python\Super shopee\chromedriver.exe", options = chromeoptions)
+    browser.get("https://temp-mail.org/vi/")
+    for i in range(10):
+        try:
+            browser.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div[2]/button").click()
+            email = pyperclip.paste()
+            print("Email: " + email)
+            break
+        except:
+            pass
+        
+
+class func():
+    autoit.win_activate("LDPlayer")
+    sleep(1)
+    click_image("image\Taotaikhoanmoi.PNG", 3)
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\Ho.PNG", 2)
+    pyautogui.write("Nguyen")
+    click_image("image\Ten.PNG", 2)
+    pyautogui.write("Nu")
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\Chophep.PNG", 3)
+    click_image("image\Dangkibangemail.PNG", 3)
+    open_mail()
+    autoit.win_activate("LDPlayer")
+    click_image("image\diachiemail.PNG", 3)
+    pyperclip.copy(email)
+    pyautogui.hotkey('ctrl','v')
+    click_image("image\Tiep.PNG", 3)
+    
+    
+    
