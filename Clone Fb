@@ -1,22 +1,16 @@
-import subprocess, autoit, pyautogui, chromedriver_autoinstaller, pyperclip
+import autoit, pyautogui, pyperclip, random
+from selenium_stealth import stealth
 from selenium import webdriver
 from time import sleep
 device = "emulator-5554"
 
+FirstName = ["Ân","Úc","Uất","Đàm","Đào","Đinh","Đoàn","An","Bành","Bạch","Cao","Châu","Chử","Chu","Chung","Dữu","Diệp","Doãn","Giang","Hà","Hàn","Kiều","Kim","Lâm","Lương","Lưu","Lạc","Lục","La","Liễu","Mã","Mạc","Mạch","Mai","Ngư","Nghiêm","Phí","Phó","Phùng","Quách","Quang","Quyền","Tô","Tôn","Tạ","Tống","Thái","Sái","Thân","Thạch","Thảo","Thủy","Thi","Tiêu","Trương","Trầm","Trịnh","Trang","Triệu","Văn","Vĩnh","Vương","Vưu","Nguyễn","Trần","Lê","Phạm","Huỳnh","Hoàng","Phan","Vũ","Võ","Đặng","Bùi","Đỗ","Hồ","Ngô","Dương","Lý"]
+LastName = ["Thu Hương","Tuyết Hương","Vân Hương","Việt Hương","Xuân Hương","Cẩm Hường","Thu Hường","Thanh Hường","Thúy Hường","Diệu Huyền","Khánh Huyền","Lệ Huyền","Minh Huyền","Mỹ Huyền","Ngọc Huyền","Thanh Huyền","Thu Huyền","Thúy Huyền","Minh Khai","Ái Khanh","Ðan Khanh","Gia Khanh","Hiếu Khanh","Hồng Khanh","Kiều Khanh","Lệ Khanh","Mai Khanh","Ngọc Khanh","Nhã Khanh","Phi Khanh","Thụy Khanh","Uyển Khanh","Vân Khanh","Kim Khánh","Ngọc Khánh","Thiên Khánh","Vân Khánh","Mai Khôi","Diễm Khuê","Hồng Khuê","Lan Khuê","Minh Khuê","Ngọc Khuê","Thục Khuê","Việt Khuê","Kim Khuyên","Mỹ Khuyên","Diễm Kiều","Mỹ Kiều","Thanh Kiều","Thúy Kiều","Thiên Kim","Bích Lam","Ngọc Lam","Quỳnh Lam","Thanh Lam","Thiên Lam","Trúc Lam","Vy Lam","Hồng Lâm","Huệ Lâm","Hương Lâm","Ngọc Lâm","Quế Lâm","Quỳnh Lâm","Thanh Lâm","Thư Lâm","Thụy Lâm","Tịnh Lâm","Trúc Lâm","Tuệ Lâm","Tuyết Lâm","Xuân Lâm","Bảo Lan","Chi Lan","Dạ Lan","Diệu Lan","Hoàng Lan","Huệ Lan","Hương Lan","Khúc Lan","Kim Lan","Linh Lan","Mai Lan","Mộng Lan","Mỹ Lan","Ngọc Lan","Nguyệt Lan","Nhật Lan","Phong Lan","Phương Lan","Thanh Lan","Thiên Lan","Trúc Lan","Tuyết Lan","Vy Lan","Xuân Lan","Ý Lan","Ánh Lệ","Mỹ Lệ","Ngọc Lệ","Diễm Lệ","Bích Liên","Cẩm Liên","Diễm Liên","Hà Liên","Hoa Liên","Hồng Liên","Hương Liên","Kim Liên","Mai Liên","Ngọc Liên","Phương Liên","Mộng Liễu","Thúy Liễu","Xuân Liễu","Ái Linh","Quỳnh Liên","Thu Liên","Thúy Liên","Trúc Liên","Ánh Linh","Bội Linh","Cẩm Linh","Đan Linh","Diệu Linh","Gia Linh","Hạnh Linh","Hồng Linh","Huệ Linh","Huyền Linh","Khánh Linh","Mai Linh","Ngọc Linh","Phương Linh","Quế Linh","Thảo Linh","Thu Linh","Thùy Linh","Trang Linh","Trúc Linh","Vân Linh","Xuân Linh","Bạch Loan","Bích Loan","Diệu Loan","Kiều Loan","Kim Loan","Mai Loan","Minh Loan","Mỹ Loan","Ngọc Loan","Như Loan","Phượng Loan","Phương Loan","Thanh Loan","Thu Loan","Thúy Loan","Tố Loan","Trúc Loan","Tuyết Loan","Xuân Loan","Yến Loan","Cẩm Ly","Hương Ly","Khánh Ly","Kim Ly","Lưu Ly","Mai Ly","Ngọc Ly","Thảo Ly","Trúc Ly","Tú Ly","Ngọc Lý","Nhã Lý","Ánh Mai","Ban Mai","Chi Mai","Hiền Mai","Hồng Mai","Hương Mai","Khánh Mai","Kiều Mai","Kim Mai","Ngọc Mai","Nhã Mai","Như Mai","Phương Mai","Thanh Mai","Thu Mai","Thủy Mai","Thúy Mai","Trúc Mai","Tuyết Mai","Xuân Mai","Yến Mai","Tuệ Mẫn","Hà Mi","Thùy Mi","Kiều Minh","Nguyệt Minh","Thu Minh","Thủy Minh","Thúy Minh","Uyên Minh","Diễm My","Duyên My","Hà My","Hải My","Hạnh My","Huệ My","Khánh My","Thảo My","Thúy My","Thùy My","Trà My","Uyên My","Uyển My","Yến My","Duyên Mỹ","Kiều Mỹ","Thiên Mỹ","Bích Nga","Diệu Nga","Hạnh Nga","Hồng Nga","Kiều Nga","Lệ Nga","Mỹ Nga","Nguyệt Nga","Quỳnh Nga","Thanh Nga","Thiên Nga","Thu Nga","Thúy Nga","Tố Nga","Tuyết Nga","Việt Nga","Bích Ngà","Thu Ngà","Thúy Ngà","Bích Ngân","Hồng Ngân","Khánh Ngân","Kim Ngân","Quỳnh Ngân","Thanh Ngân","Thu Ngân","Thúy Ngân","Ðông Nghi","Phương Nghi","Thảo Nghi","Uyển Nghi","Xuân Nghi","Ánh Ngọc","Bảo Ngọc","Bích Ngọc","Diệu Ngọc","Giáng Ngọc","Hồng Ngọc","Huyền Ngọc","Khánh Ngọc","Kim Ngọc","Lam Ngọc","Lan Ngọc","Minh Ngọc","Mỹ Ngọc","Như Ngọc","Phương Ngọc","Thanh Ngọc","Thu Ngọc","Thúy Ngọc","Vân Ngọc","Xuân Ngọc","Tâm Nguyên","Thanh Nguyên","Thảo Nguyên","Ánh Nguyệt","Dạ Nguyệt","Kiều Nguyệt","Minh Nguyệt","Mộng Nguyệt","Tâm Nguyệt","Thu Nguyệt","Triều Nguyệt","Tú Nguyệt","Thanh Nhã","Trang Nhã","Uyển Nhã","An Nhàn","Thanh Nhàn","Ái Nhi","Cẩm Nhi","Ðông Nhi","Gia Nhi","Hà Nhi","Hải Nhi","Hảo Nhi","Hiền Nhi","Hương Nhi","Huyền Nhi","Lâm Nhi","Lan Nhi","Lệ Nhi","Linh Nhi","Mai Nhi","Minh Nhi","Mộng Nhi","Mỹ Nhi","Ngọc Nhi","Phương Nhi","Quỳnh Nhi","Tâm Nhi","Thảo Nhi","Thục Nhi","Thùy Nhi","Tịnh Nhi","Tố Nhi","Tuệ Nhi","Tuyết Nhi","Uyên Nhi","Uyển Nhi","Vân Nhi","Xuân Nhi","Ý Nhi","Yên Nhi","Yến Nhi","An Nhiên","Thu Nhiên","Xuân Nhiên","Bích Như","Hồng Như","Quỳnh Như","Tâm Như","Thùy Như","Uyển Như","Cẩm Nhung","Hồng Nhung","Phi Nhung","Phương Nhung","Quỳnh Nhung","Thanh Nhung","Tuyết Nhung","Ngọc Nữ","Diệu Nương","Kiều Nương","Mỹ Nương","Thiên Nương","Thụy Nương","Xuân Nương","Hoàng Oanh","Hồng Oanh","Kim Oanh","Ngọc Oanh","Thu Oanh","Thục Oanh","Thùy Oanh","Trâm Oanh","Tuyết Oanh","Yến Oanh","Thu Phong","Diễm Phúc","Hồng Phúc","Mỹ Phụng","Ngọc Phụng","Diễm Phước","Bảo Phương","Diễm Phương","Hà Phương","Hạnh Phương","Hoài Phương","Hồng Phương","Huệ Phương","Lan Phương","Liên Phương","Linh Phương","Mai Phương","Minh Phương","Mỹ Phương","Như Phương","Quế Phương","Quỳnh Phương","Thanh Phương","Thiên Phương","Thu Phương","Trúc Phương","Uyên Phương","Vân Phương","Xuân Phương","Yến Phương","Bích Phượng","Diễm Phượng","Hải Phượng","Kim Phượng","Linh Phượng","Minh Phượng","Mỹ Phượng","Thu Phượng","Thúy Phượng","Xuân Phượng","Yến Phượng","Bích Quân","Lệ Quân","Như Quân","Phương Quân","Trúc Quân","Tùng Quân","Hồng Quế","Ngọc Quế","Nguyệt Quế","Phương Quế","Bảo Quyên","Bích Quyên","Diễm Quyên","Khánh Quyên","Lệ Quyên","Mai Quyên","Ngọc Quyên","Phương Quyên","Thảo Quyên","Thục Quyên","Tố Quyên","Tú Quyên","Vân Quyên","Vi Quyên","Bảo Quỳnh","Diễm Quỳnh","Gia Quỳnh","Khánh Quỳnh","Lê Quỳnh","Mộng Quỳnh","Ngọc Quỳnh","Như Quỳnh","Phương Quỳnh","Thúy Quỳnh","Trúc Quỳnh","Tú Quỳnh","Kim Sa","Quỳnh Sa","Bích San","Linh San","Ngọc San","San San","Ngọc Sương","Nhã Sương","Sương Sương","Thu Sương","Tú Sương","Bảo Uyên","Diễm Uyên","Duy Uyên","Giáng Uyên","Hạ Uyên","Hải Uyên","Lâm Uyên","Minh Uyên","Mỹ Uyên","Ngọc Uyên","Nhã Uyên","Phương Uyên","Phượng Uyên","Thanh Uyên","Thảo Uyên","Thục Uyên","Thùy Uyên","Thụy Uyên","Tố Uyên","Tú Uyên","Xuân Uyên","Ngọc Uyển","Nguyệt Uyển","Băng Tâm","Minh Tâm","Mỹ Tâm","Ngọc Tâm","Như Tâm","Phương Tâm","Thanh Tâm","Thục Tâm","Bảo Tiên","Cát Tiên","Giáng Tiên","Hà Tiên","Hạ Tiên","Hoa Tiên","Hương Tiên","Phượng Tiên","Quỳnh Tiên","Thiện Tiên","Thủy Tiên","Vân Tiên","Bạch Trà","Hương Trà","Phương Trà","Bảo Trâm","Bích Trâm","Huyền Trâm","Mỹ Trâm","Ngọc Trâm","Phương Trâm","Quỳnh Trâm","Thụy Trâm","Uyên Trâm","Yến Trâm","Hương Trầm","Bảo Trân","Huyền Trân","Ánh Trang","Bích Trang","Ðài Trang","Diễm Trang","Ðoan Trang","Hạnh Trang","Hoài Trang","Hương Trang","Huyền Trang","Khánh Trang","Kiều Trang","Kim Trang","Linh Trang","Minh Trang","Mỹ Trang","Nhã Trang","Phương Trang","Quỳnh Trang","Tâm Trang","Thanh Trang","Thảo Trang","Thiên Trang","Thu Trang","Thục Trang","Thủy Trang","Vân Trang","Xuân Trang","Yến Trang","Diễm Trinh","Kiết Trinh","Kiều Trinh","Mai Trinh","Ngọc Trinh","Phương Trinh","Thục Trinh","Thụy Trinh","Tú Trinh","Tuyết Trinh","Vân Trinh","Việt Trinh","Yến Trinh","Bảo Trúc","Hồng Trúc","Lan Trúc","Ngân Trúc","Nhã Trúc","Thanh Trúc","Khuê Trúc","Cẩm Tú","Khả Tú","Ngọc Tú","Minh Tuệ","Kim Tuyến","Ðông Tuyền","Kim Tuyền","Lam Tuyền","Lâm Tuyền","Mộng Tuyền","Sơn Tuyền","Thanh Tuyền","Thiên Tuyền","Ánh Tuyết","Bạch Tuyết","Kim Tuyết","Minh Tuyết","Ngọc Tuyết","Thanh Tuyết","Cát Tường","Hồng Thắm","Ðoan Thanh","Giang Thanh","Hà Thanh","Kim Thanh","Lệ Thanh","Mai Thanh","Ngân Thanh","Nhã Thanh","Phương Thanh","Quỳnh Thanh","Thanh Thanh","Thiên Thanh","Vân Thanh","Xuân Thanh","Yến Thanh","Anh Thảo","Bích Thảo","Diễm Thảo","Hương Thảo","Kim Thảo","Mai Thảo","Minh Thảo","Nguyên Thảo","Như Thảo","Phương Thảo","Thạch Thảo","Thanh Thảo","Thiên Thảo","Thu Thảo","Xuân Thảo","Ái Thi (Thy)","Dạ Thi (Thy)","Mộng Thi (Thy)","Ngọc Thi (Thy)","Phương Thi (Thy)","Khánh Thi (Thy)","Uyên Thi (Thy)","Tuệ Thi","Hoa Thiên","Anh Thơ","Ánh Thơ","Ngọc Thơ","Quỳnh Thơ","Uyên Thơ","Bảo Thoa","Bích Thoa","Kim Thoa","Bích Thu","Hồng Thu","Hương Thu","Kiều Thu","Kim Thu","Lệ Thu","Mai Thu","Minh Thu","Mộng Thu","Quế Thu","Thanh Thu","Xuân Thu","Anh Thư","Diễm Thư","Hồng Thư","Huyền Thư","Kim Thư","Minh Thư","Thanh Thư","Thiên Thư","Hiền Thục","Hoài Thương","Huệ Thương","Lan Thương","Minh Thương","Thương Thương","Bảo Thúy","Cẩm Thúy","Diễm Thúy","Diệu Thúy","Hồng Thúy","Minh Thúy","Thanh Thúy","Vân Thúy","Phương Thùy","Bích Thủy","Hồng Thủy","Hương Thủy","Khánh Thủy","Kim Thủy","Lệ Thủy","Minh Thủy","Phương Thủy","Thanh Thủy","Thu Thủy","Xuân Thủy","Ái Vân","Bạch Vân","Bảo Vân","Bích Vân","Cẩm Vân","Diệu Vân","Hải Vân","Hồng Vân","Khánh Vân","Mộng Vân","Mỹ Vân","Ngọc Vân","Quỳnh Vân","Thái Vân","Thanh Vân","Thảo Vân","Thu Vân","Thục Vân","Thụy Vân","Thúy Vân","Thùy Vân","Thy Vân","Trúc Vân","Tường Vân","Tuyết Vân","Xuân Vân","Hạnh Vi","Hoàn Vi","Khánh Vi","Mộng Vi","Thúy Vi","Tường Vi","Uyên Vi","Bảo Vy","Diệp Vy","Ðông Vy","Hạ Vy","Hải Vy","Khánh Vy","Lan Vy","Mai Vy","Minh Vy","Mộng Vy","Ngọc Vy","Phượng Vy","Thanh Vy","Thảo Vy","Thúy Vy","Trúc Vy","Tường Vy","Tuyết Vy","Ánh Xuân","Hồng Xuân","Hương Xuân","Kim Xuân","Minh Xuân","Mỹ Xuân","Nghi Xuân","Thanh Xuân","Thi Xuân","Tuyết Xuân","Kim Xuyến","Nhã Ý","Như Ý","Thái Yên","Bạch Yến","Cẩm Yến","Dạ Yến","Hải Yến","Hoàng Yến","Kim Yến","Minh Yến","Mỹ Yến","Ngọc Yến","Nhã Yến","Phụng Yến","Phương Yến","Thanh Yến","Thi Yến","Thu Yến"]
+
 # subprocess.call("adb -e -s emulator-5556 install facebook.apk")
-# os.chdir(r"F:\Lập Trình Python\Reg facebook")
-def auto_click(x, y, z):
-    subprocess.call(f"adb -s {device} shell input tap {x} {y}")
-    sleep(z)
     
 def click_image(path, delay):
     print("Find image: "+ path.split("\\")[-1])
-    try:
-        x, y = pyautogui.locateCenterOnScreen(path)
-        pyautogui.click(x, y)
-        sleep(delay)
-    except:
-        pass
     for i in range(3):
         try:
             x, y = pyautogui.locateCenterOnScreen(path)
@@ -27,41 +21,131 @@ def click_image(path, delay):
             sleep(1)
     print("No image found")
 
+def ngay_sinh():
+    ngay = random.randint(10,28)
+    for i in str(ngay):
+        click_image(f"image\{i}.PNG",1)
+    thang = random.randint(10,12)
+    for i in str(thang):
+        click_image(f"image\{i}.PNG",1)
+    nam = random.randint(1990,2003)
+    for i in str(nam):
+        click_image(f"image\{i}.PNG",1)
+
 def open_mail():
     global browser, email
     chromeoptions = webdriver.ChromeOptions()
     chromeoptions.add_experimental_option('excludeSwitches', ['enable-logging'])
-    chromeoptions.add_argument("--window-size=300,350")
+    chromeoptions.add_argument("--window-size=600,400")
+    chromeoptions.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
+    chromeoptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chromeoptions.add_experimental_option('useAutomationExtension', False)
+    chromeoptions.add_argument('--disable-blink-features=AutomationControlled')
     browser = webdriver.Chrome(executable_path=r"F:\Lập Trình Python\Super shopee\chromedriver.exe", options = chromeoptions)
+    # browser.set_window_position(50, 100)
+    stealth(browser,
+         languages=["en-US", "en"],
+         vendor="Google Inc.",
+         platform="Win32",
+         webgl_vendor="Intel Inc.",
+         renderer="Intel Iris OpenGL Engine",
+         fix_hairline=True,
+         )
     browser.get("https://temp-mail.org/vi/")
+    autoit.control_click("Mail tạm thời - Email dùng một lần tạm thời - Email ẩn danh - Google Chrome","",x= 480,y= 330)
+    with open("taikhoan\taikhoanloai1.txt", mode="a") as file:
+        file.write(pyperclip.paste())
+        
+def check_otp():
+    global otp
     for i in range(10):
         try:
-            browser.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div[2]/button").click()
-            email = pyperclip.paste()
-            print("Email: " + email)
+            str_otp = browser.find_element_by_xpath("/html/body/main/div[1]/div/div[2]/div[2]/div/div[1]/div/div[4]/ul/li[2]/div[2]/span/a").text
+            print(str_otp)
+            if len(str_otp) == 0:
+                sleep(5)
+                continue
+            otp = str_otp.split(" ")[0]
             break
         except:
-            pass
-        
+            print("Chưa tìm được Otp")
+            sleep(5)
+
+def nhap_noi_dung():
+    old = ["À", "Á", "Â", "Ã", "È", "É", "Ê", "Ì", "Í", "Ò",
+    	"Ó", "Ô", "Õ", "Ù", "Ú", "Ý", "à", "á", "â", "ã",
+    	"è", "é", "ê", "ì", "í", "ò", "ó", "ô", "õ", "ù",
+    	"ú", "ý", "Ă", "ă", "Đ", "đ", "Ĩ", "ĩ", "Ũ", "ũ",
+    	"Ơ", "ơ", "Ư", "ư", "Ạ", "ạ", "Ả", "ả", "Ấ", "ấ",
+    	"Ầ", "ầ", "Ẩ", "ẩ", "Ẫ", "ẫ", "Ậ", "ậ", "Ắ", "ắ",
+    	"Ằ", "ằ", "Ẳ", "ẳ", "Ẵ", "ẵ", "Ặ", "ặ", "Ẹ", "ẹ",
+    	"Ẻ", "ẻ", "Ẽ", "ẽ", "Ế", "ế", "Ề", "ề", "Ể", "ể",
+    	"Ễ", "ễ", "Ệ", "ệ", "Ỉ", "ỉ", "Ị", "ị", "Ọ", "ọ",
+    	"Ỏ", "ỏ", "Ố", "ố", "Ồ", "ồ", "Ổ", "ổ", "Ỗ", "ỗ",
+    	"Ộ", "ộ", "Ớ", "ớ", "Ờ", "ờ", "Ở", "ở", "Ỡ", "ỡ",
+    	"Ợ", "ợ", "Ụ", "ụ", "Ủ", "ủ", "Ứ", "ứ", "Ừ", "ừ",
+    	"Ử", "ử", "Ữ", "ữ", "Ự", "ự", "Ỳ", "ỳ", "Ỵ", "ỵ",
+    	"Ỷ", "ỷ", "Ỹ", "ỹ"]
+    new = ["Af" , "As" , "Aa" , "Ax" , "Ef" , "Es" , "Ee" , "If" , "Is" , "Of" ,
+        "Os" , "Oo" , "Ox" , "Uf" , "Us" , "Ys" , "af" , "as" , "aa" , "ax" ,
+        "ef" , "es" , "ee" , "if" , "is" , "of" , "os" , "oo" , "ox" , "uf" ,
+        "us" , "ys" , "Aw" , "aw" , "DD" , "dd" , "Ix" , "ix" , "Ux" , "ux" ,
+        "Ow" , "ow" , "Uw" , "uw" , "Aj" , "aj" , "Ar" , "ar" , "Aas", "aas",
+        "Aaf", "aaf", "Aar", "aar", "Aax", "aax", "Aaj", "aaj", "Aws", "aws",
+        "Awf", "awf", "Awr", "awr", "Awx", "awx", "Awj", "awj", "Ej" , "ej" ,
+        "Er" , "er" , "Ex" , "ex" , "Ees", "ees", "Eef", "eef", "Eer", "eer",
+        "Eex", "eex", "Eej", "eej", "Ir" , "ir" , "Ij" , "ij" , "Oj" , "oj" ,
+        "Or" , "or" , "Oos", "oos", "Oof", "oof", "Oor", "oor", "Oox", "oox",
+        "Ooj", "ooj", "Ows", "ows", "Owf", "owf", "Owr", "owr", "Owx", "owx",
+        "Owj", "owj", "Uj" , "uj" , "Ur" , "ur" , "Uws", "uws", "Uwf", "uwf",
+        "Uwr", "uwr", "Uwx", "uwx", "Uwj", "uwj", "Yf" , "yf" , "Yj" , "yj" ,
+        "Yr" , "yr" , "Yx" , "yx"]
+    content = pyperclip.paste()
+    for i in range(len(old)):
+        content = content.replace(old[i], new[i])
+    for i in content:
+        pyautogui.press(i)
 
 class func():
     autoit.win_activate("LDPlayer")
-    sleep(1)
+    autoit.win_move("LDPlayer",900,10)
+    click_image("image\logo.PNG", 5)
+    click_image("image\Chophep.PNG", 3)
     click_image("image\Taotaikhoanmoi.PNG", 3)
     click_image("image\Tiep.PNG", 3)
+    
     click_image("image\Ho.PNG", 2)
-    pyautogui.write("Nguyen")
+    Ho = random.choice(FirstName)
+    pyperclip.copy(Ho)
+    nhap_noi_dung()
+    print("Họ: "+ Ho)
     click_image("image\Ten.PNG", 2)
-    pyautogui.write("Nu")
+    Ten = random.choice(LastName)
+    pyperclip.copy(Ten)
+    nhap_noi_dung()
+    print("Tên: "+ Ten)
     click_image("image\Tiep.PNG", 3)
-    click_image("image\Chophep.PNG", 3)
+    click_image("image\Chophep2.PNG", 2)
+    
     click_image("image\Dangkibangemail.PNG", 3)
     open_mail()
     autoit.win_activate("LDPlayer")
     click_image("image\diachiemail.PNG", 3)
-    pyperclip.copy(email)
-    pyautogui.hotkey('ctrl','v')
+    nhap_noi_dung()
     click_image("image\Tiep.PNG", 3)
-    
-    
-    
+    ngay_sinh()
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\gioitinh.PNG", 3)
+    click_image("image\matkhaumoi.PNG", 3)
+    pyperclip.copy("10102001a")
+    nhap_noi_dung()
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\Tiep.PNG", 3)
+    check_otp()
+    click_image("image\otp.PNG", 3)
+    pyperclip.copy(otp)
+    nhap_noi_dung()
+    click_image("image\Tiep.PNG", 3)
+    click_image("image\boqua.PNG", 3)
+    click_image("image\boqua2.PNG", 3)
