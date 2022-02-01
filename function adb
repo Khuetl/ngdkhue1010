@@ -24,3 +24,6 @@ def key_event(key):
 import pyautogui
 x, y = pyautogui.locateCenterOnScreen('calc7key.png', region=(0,0, 300, 400))
 pyautogui.click(x, y)
+
+subprocess.call(f"adb -s {device} shell screencap -p /sdcard/screenshot.png")
+subprocess.call(f"adb -s {device} pull -p /sdcard/screenshot.png image/")
